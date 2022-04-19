@@ -16,6 +16,7 @@ const Signup = () => {
       passwordCheck: data.passwordCheck,
       email: data.email,
     });
+    console.log("hello");
   };
 
   return (
