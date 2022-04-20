@@ -2,12 +2,11 @@ import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { getTestData } from "../api/query";
 import Post from "../components/Post";
-import CircularProgress from "@mui/material/CircularProgress";
 
 // import { getData } from "../api/query";
 const Home = () => {
   /* getData(); */
-  const { data: profile, isLoading } = getTestData();
+  const { data: profile } = getTestData();
   const result = profile?.data?.data;
   const [counter, setCounter] = useState(10);
   const _handleScroll = _.throttle(() => {
@@ -25,20 +24,13 @@ const Home = () => {
       window.removeEventListener("scroll", handleScroll, true);
     };
   }, [handleScroll]);
-  const onClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
   return (
     <React.Fragment>
       <div className="w-full h-screen flex justify-center">
         <div>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            result?.slice(0, counter).map((data) => {
-              return <Post key={data.id} {...data} />;
-            })
-          )}
+          {result?.slice(0, counter).map((data) => {
+            return <Post key={data.id} {...data} />;
+          })}
         </div>
       </div>
     </React.Fragment>
