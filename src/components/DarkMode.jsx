@@ -57,7 +57,6 @@ const DarkMode = () => {
   const clickDark = () => {
     return theme === "2" ? setTheme("1") : setTheme("2");
   };
-  console.log(theme);
   return (
     <FormControlLabel
       control={

@@ -14,8 +14,7 @@ const Post = (props) => {
   const clickLike = () => {
     setIsLike((prev) => !prev);
   };
-  const navigate = useNavigate();
-  console.log(isLike);
+  //const navigate = useNavigate();
   return (
     <React.Fragment>
       <div className="w-[550px] bg-white overflow-hidden my-2 rounded-lg flex flex-col justify-center items-center shadow-xl">
@@ -27,7 +26,7 @@ const Post = (props) => {
           <img width="100%" height="384px" src={avatar} alt={avatar} />
         </div>
         <footer className="w-full ">
-          <section className="w-full h-10 px-3  flex justify-between">
+          <section className="w-full h-10 px-1  flex justify-between">
             <div className="w-1/4 flex items-center space-x-2">
               <Checkbox
                 {...label}
@@ -44,7 +43,7 @@ const Post = (props) => {
               <p className="font-semibold text-sm">좋아요 0개</p>
             </div>
           </section>
-          <section className="w-full text-sm px-3">
+          <section className="w-full text-sm px-3 py-2">
             <span>오리 귀여워</span>
             <div> 더보기 ... 만들기</div>
             <div className="mt-3">{`#오리 #졸귀`}</div>
