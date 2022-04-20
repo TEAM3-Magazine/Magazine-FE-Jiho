@@ -5,14 +5,10 @@ import Post from "../components/Post";
 const PostDetail = () => {
   const location = useLocation();
   console.log(location);
-  const { data: detail } = getTestDateDetail(location.state.id);
+  const { data: detail } = getTestDateDetail(location.state?.id);
   const result = detail?.data?.data;
   console.log(result);
-  return (
-    <div className="w-full h-screen bg-cyan-200 flex justify-center">
-      <Post {...location.state} />
-    </div>
-  );
+  return <Post {...location.state} />;
 };
 
 export default PostDetail;

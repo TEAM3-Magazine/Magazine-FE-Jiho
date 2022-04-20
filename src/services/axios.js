@@ -9,8 +9,11 @@ const instance = axios.create({
   // REACT_APP_MAGAZINE_API_BASE_URL 접근
   //    baseURL : process.env.REACT_APP_MAGAZINE_API_BASE_URL,
   baseURL: "http://3.34.130.45:8082",
+  /* baseURL: "http://3.38.106.41", */
   headers: {
-    "Content-Type": "application/json",
+    "content-type": "application/json;charset=UTF-8",
+    accept: "application/json,",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 

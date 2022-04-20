@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
@@ -18,7 +19,7 @@ const ProfileMenu = () => {
     setAnchorEl(null);
   };
   return (
-    <div className="bg-slate-500 w-14 h-14 flex">
+    <div className=" w-14 h-14 flex">
       <IconButton
         size="large"
         aria-label="account of current user"
@@ -43,10 +44,18 @@ const ProfileMenu = () => {
         }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        sx={{ mt: "50px" }}
+        sx={{ mt: "30px", ml: "5px" }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Button variant="contained" onClick={() => navigate("/signup")}>
+            일단 회원가입
+          </Button>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Button variant="contained" onClick={() => navigate("/login")}>
+            일단 로그인
+          </Button>
+        </MenuItem>
       </Menu>
     </div>
   );

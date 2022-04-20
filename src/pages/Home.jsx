@@ -6,17 +6,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // import { getData } from "../api/query";
 const Home = () => {
-  // getData();
+  /* getData(); */
   const { data: profile, isLoading } = getTestData();
   const result = profile?.data?.data;
-  const [counter, setCounter] = useState(4);
+  const [counter, setCounter] = useState(10);
   const _handleScroll = _.throttle(() => {
     const { innerHeight } = window;
     const { scrollHeight } = document.body;
     const { scrollTop } = document.documentElement;
-    console.log(scrollHeight, innerHeight, scrollTop);
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
-      setCounter(counter + 4);
+      setCounter(counter + 5);
     }
   }, 1000);
   const handleScroll = useCallback(_handleScroll, [counter]);
@@ -29,10 +28,9 @@ const Home = () => {
   const onClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  console.log(isLoading);
   return (
     <React.Fragment>
-      <div className="w-full h-screen bg-cyan-200 flex justify-center">
+      <div className="w-full h-screen flex justify-center">
         <div>
           {isLoading ? (
             <CircularProgress />

@@ -15,6 +15,7 @@
     "@mui/material": "^5.6.2",
     "@mui/styled-engine-sc": "^5.6.1",
     "axios": "^0.26.1",
+    "firebase": "^8.0.0",
     "http-proxy-middleware": "^2.0.4",
     "lodash": "^4.17.21",
     "react": "^18.0.0",
@@ -34,5 +35,6 @@
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.24",
     "vite": "^2.9.2"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }
