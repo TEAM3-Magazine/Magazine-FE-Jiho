@@ -9,15 +9,11 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 50px;
   }
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(#e0eafc, #81ecec);
+    background: linear-gradient(#e74c3c, #8e44ad);
     border-radius: 50px;
   }
 }
 body {
   background-color: rgb(165, 243, 252);
-  -webkit-user-select:none; 
-  -moz-user-select:none; 
-  -ms-user-select:none; 
-  user-select:none;
 }
 `;

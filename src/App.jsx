@@ -1,5 +1,5 @@
 import Router from "./router/Router";
-import { GlobalStyle } from "./Styles/GlobalStyle";
+import { GlobalStyle } from "./Shared/GlobalStyle";
 import "tailwindcss/tailwind.css";
 
 function App() {

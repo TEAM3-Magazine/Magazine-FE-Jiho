@@ -14,11 +14,11 @@ export const getTestDateDetail = (id) => {
   });
 };
 
-export const getData = () => {
-  return useQuery("getData", async () => {
-    return await instance.get("/api/board");
-  });
-};
+// export const getData = () => {
+//   return useQuery("getData", async () => {
+//     return await instance.get("/api/board");
+//   });
+// };
 
 export const postSignup = () => {
   return useMutation((signup) => {
