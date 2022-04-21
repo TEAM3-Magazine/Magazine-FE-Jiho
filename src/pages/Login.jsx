@@ -4,11 +4,16 @@ import { instance } from "../services/axios";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { postLogin } from "../api/query";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
+  const { mutate } = postLogin();
   const onValid = (data) => {
-    console.log(data);
+    mutate({
+      user_email: data.email,
+      user_password: data.password,
+    });
   };
   return (
     <React.Fragment>
@@ -46,7 +51,7 @@ const Login = () => {
             })}
           />
           <Button type="submit" variant="contained">
-            회원가입
+            로그인
           </Button>
         </form>
       </div>

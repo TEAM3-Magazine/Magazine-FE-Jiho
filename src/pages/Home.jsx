@@ -1,22 +1,20 @@
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import { getTestData } from "../api/query";
+import { getPosts } from "../api/query";
 import Post from "../components/Post";
 
-// import { getData } from "../api/query";
 const Home = () => {
-  /* getData(); */
-  const { data: profile } = getTestData();
-  const result = profile?.data?.data;
+  const { data: instar } = getPosts();
+  console.log(instar);
   const [counter, setCounter] = useState(10);
   const _handleScroll = _.throttle(() => {
     const { innerHeight } = window;
-    const { scrollHeight } = document.body;
+    const { scrollHeight } = document.documentElement;
     const { scrollTop } = document.documentElement;
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
       setCounter(counter + 5);
     }
-  }, 1000);
+  }, 100);
   const handleScroll = useCallback(_handleScroll, [counter]);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
@@ -28,8 +26,8 @@ const Home = () => {
     <React.Fragment>
       <div className="w-full h-screen flex justify-center">
         <div>
-          {result?.slice(0, counter).map((data) => {
-            return <Post key={data.id} {...data} />;
+          {instar?.data?.slice(0, counter).map((data) => {
+            return <Post key={data.post_id} {...data} />;
           })}
         </div>
       </div>

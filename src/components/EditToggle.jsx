@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { Link } from "react-router-dom";
+import { postDelete } from "../api/query";
 
 const style = {
   position: "absolute",
@@ -20,10 +21,18 @@ const style = {
   flexDirection: "column",
 };
 
-const EditToggle = () => {
+const EditToggle = (props) => {
+  const { post_id } = props;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { mutate, isError } = postDelete(post_id);
+  console.log(post_id);
+  const deletePost = () => {
+    mutate({
+      post_id: post_id,
+    });
+  };
   return (
     <>
       <IconButton
@@ -51,6 +60,12 @@ const EditToggle = () => {
           </span>
           <span className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer">
             카카오 공유
+          </span>
+          <span
+            onClick={deletePost}
+            className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
+          >
+            삭제
           </span>
           <span
             onClick={handleClose}

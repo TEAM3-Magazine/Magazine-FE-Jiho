@@ -15,6 +15,7 @@ import Alert from "@mui/material/Alert";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../Shared/firebase";
+import { postWrite } from "../api/query";
 /* import { postSignup } from "../api/query"; */
 
 const WriteBtn = () => {
@@ -55,7 +56,7 @@ const WriteBtn = () => {
     }
   };
 
-  /* const { mutate, data, isSuccess } = postSignup(); */
+  const { mutate, data, isSuccess, isError, error } = postWrite();
   const onSubmit = (data) => {
     let image = fileInput.current.files[0];
     if (!image) {
@@ -63,20 +64,26 @@ const WriteBtn = () => {
       return;
     }
     const _upload = storage.ref(`images/${image.name}`).put(image);
-    console.log(_upload);
     _upload.then((snapshot) => {
       snapshot.ref.getDownloadURL().then((url) => {
-        /* mutate({
-          username: url,
-          password: "123123",
-          passwordCheck: "123123",
-          email: data.contents,
-        }); */
-        console.log(url);
-        setOpen(false);
-        setImgBase64("");
-        setValue("contents", "");
-        setAlertOpen(true);
+        if (isError) {
+          alert("요청 실패");
+          return;
+        }
+        mutate(
+          {
+            image_url: url,
+            contents: data.contents,
+          },
+          {
+            onSuccess: () => {
+              setOpen(false);
+              setImgBase64("");
+              setValue("contents", "");
+              setAlertOpen(true);
+            },
+          }
+        );
       });
     });
   };

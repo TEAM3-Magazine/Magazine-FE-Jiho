@@ -15,7 +15,7 @@ export const themeState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const profile = atom({
-  key: "profile",
-  default: [],
+export const getSession = atom({
+  key: "session",
+  default: sessionStorage.getItem("token"),
 });

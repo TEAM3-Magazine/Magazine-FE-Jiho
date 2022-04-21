@@ -4,20 +4,21 @@ import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { postSignup } from "../api/query";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
-  const { mutate, data, isSuccess } = postSignup();
-  console.log(data, isSuccess);
+  const { mutate, data, isSuccess, isError } = postSignup();
+  const navigate = useNavigate();
   const onValid = (data) => {
     mutate({
-      username: data.name,
-      password: data.password,
-      passwordCheck: data.passwordCheck,
-      email: data.email,
+      user_name: data.name,
+      user_password: data.password,
+      user_password_check: data.passwordCheck,
+      user_email: data.email,
     });
-    console.log("hello");
   };
+  console.log(data, isError);
 
   return (
     <React.Fragment>
@@ -40,7 +41,6 @@ const Signup = () => {
               },
             })}
           />
-
           <TextField
             id="standard-basic"
             label="password"
@@ -55,7 +55,6 @@ const Signup = () => {
               },
             })}
           />
-
           <TextField
             id="standard-password-input"
             label="passwordCheck"
@@ -70,7 +69,6 @@ const Signup = () => {
               },
             })}
           />
-
           <TextField
             id="standard-password-input"
             label="email"
