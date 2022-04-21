@@ -62,3 +62,13 @@ export const postDelete = (post_id) => {
       });
   });
 };
+
+export const postUpdate = (post_id) => {
+  return useMutation((update) => {
+    return instance.put(`/api/post/${post_id}`, update).then((res) => {
+      let result = res.data;
+      alert(result.msg);
+      window.location.reload();
+    });
+  });
+};

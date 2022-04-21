@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { Link } from "react-router-dom";
-import { postDelete } from "../api/query";
+import { postDelete, postUpdate } from "../api/query";
 
 const style = {
   position: "absolute",
@@ -33,6 +33,13 @@ const EditToggle = (props) => {
       post_id: post_id,
     });
   };
+  const { mutate: test } = postUpdate(post_id);
+  const updatePost = () => {
+    test({
+      contents: "안녕",
+      image_url: "hihi",
+    });
+  };
   return (
     <>
       <IconButton
@@ -58,7 +65,10 @@ const EditToggle = (props) => {
           <span className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer">
             이미지 링크 복사
           </span>
-          <span className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer">
+          <span
+            onClick={updatePost}
+            className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
+          >
             카카오 공유
           </span>
           <span

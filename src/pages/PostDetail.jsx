@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { getTestDateDetail } from "../api/query";
 import Post from "../components/Post";
 
 const PostDetail = () => {
