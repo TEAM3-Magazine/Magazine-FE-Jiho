@@ -5,10 +5,12 @@ import { instance } from "../services/axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { postLogin } from "../api/query";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { register, handleSubmit, setValue } = useForm();
-  const { mutate } = postLogin();
+  const { register, handleSubmit } = useForm();
+  const { mutate, isError, error } = postLogin();
+  const navigate = useNavigate();
   const onValid = (data) => {
     mutate({
       user_email: data.email,

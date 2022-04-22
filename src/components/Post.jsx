@@ -25,7 +25,7 @@ const Post = (props) => {
           <div className="w-12">{user_name}</div>
           <EditToggle post_id={post_id} />
         </header>
-        <div className="w-full h-[400px]  flex justify-center items-center overflow-hidden">
+        <div className="w-full h-[400px] flex justify-center items-center overflow-hidden">
           <img width="100%" height="384px" src={image_url} alt={image_url} />
         </div>
         <footer className="w-full ">

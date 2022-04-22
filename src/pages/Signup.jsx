@@ -7,18 +7,22 @@ import { postSignup } from "../api/query";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { register, handleSubmit } = useForm();
-  const { mutate, data, isSuccess, isError } = postSignup();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const { mutate } = postSignup();
   const navigate = useNavigate();
   const onValid = (data) => {
     mutate({
+      user_email: data.email,
       user_name: data.name,
       user_password: data.password,
       user_password_check: data.passwordCheck,
-      user_email: data.email,
     });
   };
-  console.log(data, isError);
 
   return (
     <React.Fragment>
@@ -29,39 +33,43 @@ const Signup = () => {
           className="w-1/2 flex flex-col p-4 border-2 rounded-md bg-white"
         >
           <TextField
-            id="standard-basic"
-            label="name"
+            label="Email"
             variant="standard"
+            placeholder="Email"
+            autoFocus
             required
-            {...register("name", {
-              required: "name is required",
+            {...register("email", {
               pattern: {
-                value: /^[A-Za-z0-9._%+-]/,
-                message: "Only naver.com emails allowed",
+                value: /^[A-Za-z0-9._%+-]+@/g,
+                message: "이메일에 @는 필수입니다",
               },
             })}
           />
+          <span>{errors?.email?.message}</span>
           <TextField
             id="standard-basic"
-            label="password"
-            type="password"
+            label="Nick Name"
             variant="standard"
             required
-            {...register("password", {
-              required: "Email is required",
+            {...register("name", {
+              required: true,
+              minLength: {
+                value: 3,
+                message: "minLength 3",
+              },
               pattern: {
-                value: /^[A-Za-z0-9._%+-]/,
-                message: "Only naver.com emails allowed",
+                value: /^[A-Za-z0-9._%+-]/g,
+                message: "pattern error",
               },
             })}
           />
           <TextField
             id="standard-password-input"
-            label="passwordCheck"
+            label="Password"
             type="password"
             variant="standard"
             autoComplete="off"
-            {...register("passwordCheck", {
+            {...register("password", {
               required: true,
               pattern: {
                 value: /^[A-Za-z0-9._%+-]/g,
@@ -71,11 +79,11 @@ const Signup = () => {
           />
           <TextField
             id="standard-password-input"
-            label="email"
-            type="email"
+            label="Try Password"
+            type="password"
             variant="standard"
             autoComplete="off"
-            {...register("email", {
+            {...register("passwordCheck", {
               required: true,
               pattern: {
                 value: /^[A-Za-z0-9._%+-]/g,

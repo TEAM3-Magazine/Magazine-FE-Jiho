@@ -10,13 +10,12 @@ import { Suspense } from "react";
 
 function App() {
   const theme = useRecoilValue(themeState);
+
   return (
-    <Suspense fallback={<CircularProgress />}>
-      <ThemeProvider theme={theme !== "2" ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <Router />
-      </ThemeProvider>
-    </Suspense>
+    <ThemeProvider theme={theme !== "2" ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <Router />
+    </ThemeProvider>
   );
 }
 

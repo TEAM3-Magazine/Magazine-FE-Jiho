@@ -27,7 +27,6 @@ const EditToggle = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { mutate, isError } = postDelete(post_id);
-  console.log(post_id);
   const deletePost = () => {
     mutate({
       post_id: post_id,
@@ -69,7 +68,7 @@ const EditToggle = (props) => {
             onClick={updatePost}
             className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
           >
-            카카오 공유
+            수정
           </span>
           <span
             onClick={deletePost}

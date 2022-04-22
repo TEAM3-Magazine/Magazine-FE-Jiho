@@ -4,15 +4,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { getSession } from "../recoil/atoms";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
   const navigate = useNavigate();
   // const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const session = useRecoilValue(getSession);
+  const isToken = sessionStorage.getItem("token") ? true : false;
+  console.log(isToken);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,7 +30,7 @@ const ProfileMenu = () => {
       >
         <AccountCircle />
       </Button>
-      {session ? (
+      {isToken ? (
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}

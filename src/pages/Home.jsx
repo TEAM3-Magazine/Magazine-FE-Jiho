@@ -1,11 +1,13 @@
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { getPosts } from "../api/query";
 import Post from "../components/Post";
+import { getSession } from "../recoil/atoms";
 
 const Home = () => {
+  
   const { data: instar } = getPosts();
-  console.log(instar);
   const [counter, setCounter] = useState(10);
   const _handleScroll = _.throttle(() => {
     const { innerHeight } = window;

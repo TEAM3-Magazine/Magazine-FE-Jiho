@@ -16,6 +16,9 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../Shared/firebase";
 import { postWrite } from "../api/query";
+import { useRecoilValue } from "recoil";
+import { getSession } from "../recoil/atoms";
+import { useNavigate } from "react-router-dom";
 /* import { postSignup } from "../api/query"; */
 
 const WriteBtn = () => {
@@ -24,9 +27,16 @@ const WriteBtn = () => {
   const [imgBase64, setImgBase64] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const { register, handleSubmit, setValue } = useForm();
+  const session = sessionStorage.getItem("token") ? true : false;
+  const navigate = useNavigate();
   const fileInput = useRef();
   const handleClickOpen = () => {
-    setOpen(true);
+    if (session) {
+      setOpen(true);
+    } else {
+      alert("로그인 이후에 가능합니다");
+      navigate("/login");
+    }
   };
   const handleClose = () => {
     setOpen(false);
