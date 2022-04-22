@@ -1,5 +1,4 @@
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -38,6 +37,7 @@ const ProfileMenu = () => {
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
+          sx={{ mt: "-10px", ml: "-40px" }}
         >
           <MenuItem
             onClick={() => {
@@ -54,6 +54,7 @@ const ProfileMenu = () => {
               handleClose();
               sessionStorage.removeItem("token");
               setTimeout(() => {
+                alert("로그아웃");
                 navigate("/");
               }, 0);
             }}
@@ -70,6 +71,7 @@ const ProfileMenu = () => {
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
+          sx={{ mt: "-10px", ml: "-40px" }}
         >
           <MenuItem
             onClick={() => {

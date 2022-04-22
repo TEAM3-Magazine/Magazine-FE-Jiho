@@ -11,26 +11,32 @@ const Signup = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm();
   const { mutate } = postSignup();
   const navigate = useNavigate();
   const onValid = (data) => {
-    mutate({
-      user_email: data.email,
-      user_name: data.name,
-      user_password: data.password,
-      user_password_check: data.passwordCheck,
-    });
+    mutate(
+      {
+        user_email: data.email,
+        user_name: data.name,
+        user_password: data.password,
+        user_password_check: data.passwordCheck,
+      },
+      {
+        onSuccess: () => {
+          navigate("/login");
+        },
+      }
+    );
   };
 
   return (
     <React.Fragment>
-      <div className="w-full h-screen flex flex-col items-center">
-        <h1> 회원가입 </h1>
+      <div className="w-full h-[calc(100vh-3rem)]  flex flex-col items-center justify-center absolute top-0">
+        <h1 className="text-xl font-semibold"> 회원가입 </h1>
         <form
           onSubmit={handleSubmit(onValid)}
-          className="w-1/2 flex flex-col p-4 border-2 rounded-md bg-white"
+          className="space-y-4 flex flex-col p-4 border-2 rounded-md bg-white"
         >
           <TextField
             label="Email"

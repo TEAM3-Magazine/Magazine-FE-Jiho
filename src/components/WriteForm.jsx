@@ -16,8 +16,6 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../Shared/firebase";
 import { postWrite } from "../api/query";
-import { useRecoilValue } from "recoil";
-import { getSession } from "../recoil/atoms";
 import { useNavigate } from "react-router-dom";
 /* import { postSignup } from "../api/query"; */
 

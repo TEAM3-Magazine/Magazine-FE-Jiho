@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { Link } from "react-router-dom";
 import { postDelete, postUpdate } from "../api/query";
@@ -26,7 +27,7 @@ const EditToggle = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { mutate, isError } = postDelete(post_id);
+  const { mutate } = postDelete(post_id);
   const deletePost = () => {
     mutate({
       post_id: post_id,
@@ -34,10 +35,18 @@ const EditToggle = (props) => {
   };
   const { mutate: test } = postUpdate(post_id);
   const updatePost = () => {
-    test({
-      contents: "안녕",
-      image_url: "hihi",
-    });
+    test(
+      {
+        contents: "안녕",
+        image_url:
+          "https://firebasestorage.googleapis.com/v0/b/sparta-react-a36d6.appspot.com/o/images%2F%EC%B9%9C%EC%B9%A0%EB%9D%BC.jpg?alt=media&token=2a3d23dd-da66-4b87-bbba-256aad185ada",
+      },
+      {
+        onSuccess: () => {
+          setOpen(false);
+        },
+      }
+    );
   };
   return (
     <>
@@ -56,30 +65,33 @@ const EditToggle = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="border-y-8 leading-10">
-          <span className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer">
+        <Box sx={style} className="relative space-y-5 p-3">
+          <div
+            onClick={handleClose}
+            className="absolute -top-9 right-0 cursor-pointer"
+          >
+            <CloseIcon fontSize="large" style={{ color: "white" }} />
+          </div>
+          <span className="border-soild border-b-1 cursor-pointer">
             <Link to="/write">게시물로 이동</Link>
           </span>
 
-          <span className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer">
+          <span className="border-soild border-b-1 cursor-pointer">
             이미지 링크 복사
           </span>
           <span
             onClick={updatePost}
-            className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
+            className="border-soild border-b-1 cursor-pointer"
           >
             수정
           </span>
           <span
             onClick={deletePost}
-            className="border-soild border-b-1 hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
+            className="border-soild border-b-1 cursor-pointer"
           >
             삭제
           </span>
-          <span
-            onClick={handleClose}
-            className=" hover:scale-105 hover:ease-out hover:duration-100 cursor-pointer"
-          >
+          <span onClick={handleClose} className="cursor-pointer">
             취소
           </span>
         </Box>
