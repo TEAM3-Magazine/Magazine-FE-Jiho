@@ -9,21 +9,28 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const { mutate, isError, error } = postLogin();
+  const { mutate } = postLogin();
   const navigate = useNavigate();
   const onValid = (data) => {
-    mutate({
-      user_email: data.email,
-      user_password: data.password,
-    });
+    mutate(
+      {
+        user_email: data.email,
+        user_password: data.password,
+      },
+      {
+        onSuccess: () => {
+          navigate("/");
+        },
+      }
+    );
   };
   return (
     <React.Fragment>
-      <div className="w-full h-screen flex flex-col items-center">
-        <h1> 로그인 </h1>
+      <div className="w-full h-[calc(100vh-3rem)]  flex flex-col items-center justify-center absolute top-0">
+        <h1 className="text-xl font-semibold"> 로그인 </h1>
         <form
           onSubmit={handleSubmit(onValid)}
-          className="w-1/2 flex flex-col p-4 border-2 rounded-md bg-white"
+          className="space-y-4 w-2/3 h-1/4 flex flex-col p-4 border-2 rounded-md bg-white"
         >
           <TextField
             id="standard-password-input"

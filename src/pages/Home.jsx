@@ -1,12 +1,13 @@
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import { getPosts } from "../api/query";
 import Post from "../components/Post";
 import { getSession } from "../recoil/atoms";
+import { instance } from "../services/axios";
 
 const Home = () => {
-  
   const { data: instar } = getPosts();
   const [counter, setCounter] = useState(10);
   const _handleScroll = _.throttle(() => {

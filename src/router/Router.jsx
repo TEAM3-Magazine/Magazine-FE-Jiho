@@ -23,7 +23,7 @@ const Router = () => {
             <Route path="write" element={<Write />} />
           </Routes>
         </nav>
-        <WriteForm/>
+        <WriteForm />
         <TopScroll />
       </nav>
     </HashRouter>

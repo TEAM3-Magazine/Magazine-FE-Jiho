@@ -11,7 +11,6 @@ const ProfileMenu = () => {
   // const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isToken = sessionStorage.getItem("token") ? true : false;
-  console.log(isToken);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +55,6 @@ const ProfileMenu = () => {
               sessionStorage.removeItem("token");
               setTimeout(() => {
                 navigate("/");
-                window.location.reload();
               }, 0);
             }}
           >

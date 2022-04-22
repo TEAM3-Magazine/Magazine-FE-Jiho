@@ -1,23 +1,37 @@
-import React, { useState } from "react";
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useMatch } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import EditToggle from "./EditToggle";
-import { useRecoilValue } from "recoil";
-import { getSession } from "../recoil/atoms";
+import { getInfo, postAddLike, postUndoLike } from "../api/query";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Post = (props) => {
-  const { contents, image_url, user_name, post_id } = props;
   const match = useMatch("/");
-  const [isLike, setIsLike] = useState("default");
-  const session = useRecoilValue(getSession);
-  const clickLike = () => {
-    setIsLike((prev) => !prev);
+  const { data: userInfo } = getInfo();
+  const { contents, image_url, user_name, post_id, post_like } = props;
+  const { mutate: addLike } = postAddLike(post_id);
+  const { mutate: delLike } = postUndoLike(post_id);
+  const [isLike, setIsLike] = useState(false);
+  useEffect(() => {
+    if (post_like.includes(userInfo?.data?.user_id)) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+  }, []);
+  const clickAddLike = () => {
+    console.log("좋아요 누름");
+    addLike({});
   };
-  //const navigate = useNavigate();
+  const clickDelLike = () => {
+    console.log("좋아요 안누름");
+    delLike({});
+  };
+  const clickToggle = () => {};
+  console.log(isLike);
   return (
     <React.Fragment>
       <div className="w-[550px] bg-white overflow-hidden my-2 rounded-lg flex flex-col justify-center items-center shadow-xl">
@@ -33,9 +47,10 @@ const Post = (props) => {
             <div className="w-1/4 flex items-center space-x-2">
               <Checkbox
                 {...label}
-                icon={<FavoriteBorder onClick={clickLike} />}
+                icon={
+                  <FavoriteBorder color={isLike ? "secondary" : "default"} />
+                }
                 checkedIcon={<Favorite />}
-                color={isLike ? "error" : "default"}
               />
               <div>댓글</div>
             </div>
@@ -43,7 +58,9 @@ const Post = (props) => {
           </section>
           <section>
             <div className="w-full px-3">
-              <p className="font-semibold text-sm">좋아요 0개</p>
+              <p className="font-semibold text-sm">
+                좋아요 {`${post_like.length}개`}
+              </p>
             </div>
           </section>
           <section className="w-full text-sm px-3 py-2">
