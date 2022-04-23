@@ -77,7 +77,8 @@ export const postAddLike = (post_id) => {
   return useMutation(async (add) => {
     try {
       await instance.post(`/api/post/${post_id}/like`, add);
-    } catch {
+    } catch (err) {
+      console.log(err.response);
       alert(err.response.data.msg);
     }
   });
@@ -88,7 +89,8 @@ export const postUndoLike = (post_id) => {
   return useMutation(async (del) => {
     try {
       await instance.delete(`/api/post/${post_id}/like`, del);
-    } catch {
+    } catch (err) {
+      console.log(err.response);
       alert(err.response.data.msg);
     }
   });

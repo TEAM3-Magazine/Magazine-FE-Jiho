@@ -12,10 +12,12 @@ function App() {
   const theme = useRecoilValue(themeState);
 
   return (
-    <ThemeProvider theme={theme !== "2" ? darkTheme : lightTheme}>
-      <GlobalStyle />
-      <Router />
-    </ThemeProvider>
+    <Suspense fallback={<CircularProgress />}>
+      <ThemeProvider theme={theme !== "2" ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router />
+      </ThemeProvider>
+    </Suspense>
   );
 }
 

@@ -34,17 +34,14 @@ const EditToggle = (props) => {
   const handleClose = () => setOpen(false);
   const { mutate } = postDelete(post_id);
   const deletePost = () => {
-    confirm("삭제하시겠습니까?") === true
-      ? mutate(
-          {
-            post_id: post_id,
-          },
-          {
-            onSettled: () =>
-              queryClient.invalidateQueries(["getPosts", post_id]),
-          }
-        )
-      : false;
+    mutate(
+      {
+        post_id: post_id,
+      },
+      {
+        onSettled: () => queryClient.invalidateQueries("getPosts"),
+      }
+    );
   };
   const modalOpen = () => {
     setOpen(true);

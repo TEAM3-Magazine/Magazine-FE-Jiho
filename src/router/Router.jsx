@@ -3,11 +3,12 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import TopScroll from "../components/TopScroll";
 import WriteForm from "../components/WriteForm";
 import Header from "./Header";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import PostDetail from "../pages/PostDetail";
-import Write from "../pages/Write";
+
+const Home = lazy(() => import("../pages/Home"));
+const Login = lazy(() => import("../pages/Login"));
+const Signup = lazy(() => import("../pages/Signup"));
+const PostDetail = lazy(() => import("../pages/PostDetail"));
+const Write = lazy(() => import("../pages/Write"));
 
 const Router = () => {
   return (
