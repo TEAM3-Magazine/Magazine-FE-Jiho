@@ -9,7 +9,7 @@ export const getPosts = () => {
       return instance.get("/api/post");
     },
     {
-      refetchInterval: 10000,
+      refetchInterval: 30000,
     }
   );
 };
@@ -84,7 +84,6 @@ export const postAddLike = (post_id) => {
     try {
       await instance.post(`/api/post/${post_id}/like`, add);
     } catch (err) {
-      console.log(err.response);
       alert(err.response.data.msg);
     }
   });
@@ -96,7 +95,6 @@ export const postUndoLike = (post_id) => {
     try {
       await instance.delete(`/api/post/${post_id}/like`, del);
     } catch (err) {
-      console.log(err.response);
       alert(err.response.data.msg);
     }
   });
@@ -108,7 +106,6 @@ export const postUpdate = (post_id) => {
     try {
       await instance.put(`/api/post/${post_id}`, update);
     } catch (err) {
-      console.log(err.response);
       alert(err.response.data.msg);
     }
   });

@@ -7,6 +7,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import Fab from "@mui/material/Fab";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 import { Link, useNavigate } from "react-router-dom";
 import { postDelete } from "../api/query";
@@ -41,7 +47,16 @@ const EditToggle = (props) => {
       navigate("/login");
     }
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const { mutate } = postDelete(post_id);
   const deletePost = () => {
     mutate(
@@ -66,7 +81,7 @@ const EditToggle = (props) => {
     const el = textInput.current;
     el.select();
     document.execCommand("copy");
-    console.log("dhksfy");
+    alert("이미지 URL 복사 완료");
   };
   return (
     <>
@@ -126,6 +141,15 @@ const EditToggle = (props) => {
           />
         </Box>
       </Modal>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={2000}
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
+          게시물 수정 완료!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
