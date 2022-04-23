@@ -63,7 +63,7 @@ const DarkMode = () => {
         <MaterialUISwitch
           sx={{ m: 1 }}
           onClick={clickDark}
-          defaultChecked={theme === "2" ? false : true}
+          checked={theme === "2" ? false : true}
         />
       }
       label={theme === "2" ? "Dark Mode" : "Light Mode"}

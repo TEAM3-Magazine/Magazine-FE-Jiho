@@ -130,7 +130,9 @@ const WriteBtn = (prop) => {
         <EditIcon fontSize="medium" />
       </Fab>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>새 게시물 만들기</DialogTitle>
+        <DialogTitle>
+          {number === "1" ? "수정하기" : "새 게시물 만들기"}
+        </DialogTitle>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent className="w-[520px] h-[520px] flex flex-col justify-center items-center">
@@ -155,12 +157,7 @@ const WriteBtn = (prop) => {
               </IconButton>
             </label>
             {imgBase64 ? (
-              <img
-                width="250px"
-                height="250px"
-                onDoubleClick={() => console.log("hi")}
-                src={imgBase64}
-              ></img>
+              <img width="250px" height="250px" src={imgBase64}></img>
             ) : null}
             <TextField
               margin="dense"

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Favorite from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { getInfo, postAddLike, postUndoLike } from "../api/query";
 import { queryClient } from "../main";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Like = (props) => {
   const { post_like, post_id } = props;
@@ -46,8 +44,11 @@ const Like = (props) => {
     }
   };
   return (
-    <div onClick={likeToggle} className="w-1/4 flex items-center space-x-2">
-      <Favorite color={`${isLike ? "error" : ""}`} />
+    <div onClick={likeToggle} className="w-1/4 flex items-center space-x-2 ">
+      <FavoriteIcon
+        className="cursor-pointer"
+        color={isLike ? "error" : "disabled"}
+      />
     </div>
   );
 };

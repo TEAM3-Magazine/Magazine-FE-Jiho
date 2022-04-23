@@ -3,9 +3,15 @@ import { instance } from "../services/axios";
 
 /* 메인 페이지 포스트 리스트 */
 export const getPosts = () => {
-  return useQuery("getPosts", () => {
-    return instance.get("/api/post");
-  });
+  return useQuery(
+    "getPosts",
+    () => {
+      return instance.get("/api/post");
+    },
+    {
+      refetchInterval: 10000,
+    }
+  );
 };
 
 /* 포스터 상세 페이지 */
@@ -28,7 +34,6 @@ export const postLogin = () => {
     try {
       const res = await instance.post(`/user/login`, login);
       let result = res.data;
-      console.log(result);
       alert(result.msg);
       sessionStorage.setItem("token", result.token);
     } catch (err) {
@@ -42,8 +47,9 @@ export const postSignup = () => {
   return useMutation(async (signup) => {
     try {
       const res = await instance.post("/user/signup", signup);
-      console.log(res);
+      let result = res.data;
       alert(result.msg);
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }

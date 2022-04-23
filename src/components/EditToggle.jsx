@@ -8,7 +8,7 @@ import Fab from "@mui/material/Fab";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { postDelete } from "../api/query";
 import WriteBtn from "./WriteForm";
 import { queryClient } from "../main";
@@ -28,9 +28,19 @@ const style = {
 };
 
 const EditToggle = (props) => {
-  const { post_id } = props;
+  const { post_id, image_url } = props;
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const session = sessionStorage.getItem("token");
+  const navigate = useNavigate();
+  const handleOpen = () => {
+    if (session) {
+      setOpen(true);
+    } else {
+      alert("로그인 이후에 가능합니다");
+      navigate("/login");
+    }
+  };
   const handleClose = () => setOpen(false);
   const { mutate } = postDelete(post_id);
   const deletePost = () => {
@@ -39,12 +49,24 @@ const EditToggle = (props) => {
         post_id: post_id,
       },
       {
-        onSettled: () => queryClient.invalidateQueries("getPosts"),
+        onSettled: () => {
+          queryClient.invalidateQueries("getPosts");
+          setAlertOpen(true);
+        },
       }
     );
   };
   const modalOpen = () => {
-    setOpen(true);
+    if (session) {
+      setOpen(true);
+    }
+  };
+  const textInput = React.useRef();
+  const copy = () => {
+    const el = textInput.current;
+    el.select();
+    document.execCommand("copy");
+    console.log("dhksfy");
   };
   return (
     <>
@@ -70,12 +92,14 @@ const EditToggle = (props) => {
           >
             <CloseIcon fontSize="large" style={{ color: "white" }} />
           </div>
-          <span className="border-soild border-b-1 cursor-pointer">
+          <span className="border-soild border-b-1 cursor-pointer hover:text-gray-500">
             <Link to={`post/${post_id}`}>게시물로 이동</Link>
           </span>
-
           <div className="flex space-x-4 justify-center">
-            <span className="border-soild border-b-1 cursor-pointer">
+            <span
+              onClick={copy}
+              className="border-soild border-b-1 cursor-pointer"
+            >
               <Fab size="medium" color="inherit" aria-label="add">
                 <ContentCopyIcon />
               </Fab>
@@ -95,6 +119,11 @@ const EditToggle = (props) => {
               </Fab>
             </span>
           </div>
+          <input
+            className="text-white"
+            ref={textInput}
+            defaultValue={image_url}
+          />
         </Box>
       </Modal>
     </>

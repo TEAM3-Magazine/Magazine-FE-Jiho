@@ -7,18 +7,32 @@ const Post = (props) => {
   const match = useMatch("/");
   const { contents, image_url, user_name, post_id, post_like, created_at } =
     props;
+  // 더블 터치 좋아요
+  // const { mutate: addLike } = postAddLike(post_id);
+  // const like = () => {
+  //   addLike(
+  //     {},
+  //     {
+  //       onSuccess: () => {
+  //         console.log("좋아");
+  //         setIsLike(true);
+  //       },
+  //       onSettled: () => queryClient.invalidateQueries("getPosts"),
+  //     }
+  //   );
+  // };
   return (
     <React.Fragment>
       <div className="w-[550px] bg-white overflow-hidden my-2 rounded-lg flex flex-col justify-center items-center shadow-xl">
         <header className="w-full h-12 px-3 flex justify-between items-center">
-          <div className="w-12">{user_name}</div>
-          <EditToggle post_id={post_id} />
+          <div className="w-12 font-semibold">{user_name}</div>
+          <EditToggle post_id={post_id} image_url={image_url} />
         </header>
         <div className="w-full h-[400px] flex justify-center items-center overflow-hidden">
           <img width="100%" height="384px" src={image_url} alt={image_url} />
         </div>
         <div className="w-full ">
-          <section className="w-full h-10 px-1  flex justify-between">
+          <section className="w-full h-10 px-3  flex justify-between">
             <Like post_like={post_like} post_id={post_id} />
             <div>{/* 즐겨찾기 */}</div>
           </section>

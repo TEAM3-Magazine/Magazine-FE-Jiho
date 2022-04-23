@@ -54,8 +54,7 @@ const ProfileMenu = () => {
               handleClose();
               sessionStorage.removeItem("token");
               setTimeout(() => {
-                alert("로그아웃");
-                navigate("/");
+                window.location.reload();
               }, 0);
             }}
           >

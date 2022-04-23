@@ -12,7 +12,7 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { mutate, isSuccess } = postSignup();
+  const { mutate } = postSignup();
   const navigate = useNavigate();
   const onValid = (data) => {
     mutate({
@@ -21,7 +21,6 @@ const Signup = () => {
       user_password: data.password,
       user_password_check: data.passwordCheck,
     });
-    console.log(isSuccess);
   };
 
   return (
