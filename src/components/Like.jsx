@@ -3,6 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import { getInfo, postAddLike, postUndoLike } from "../api/query";
+import { queryClient } from "../main";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -10,26 +11,27 @@ const Like = (props) => {
   const { post_like, post_id } = props;
   const { mutate: addLike } = postAddLike(post_id);
   const { mutate: delLike } = postUndoLike(post_id);
-  // const { data: userInfo } = getInfo();
+  const { data } = getInfo();
+  let user = data?.data.user_id;
+  // console.log(post_like, post_id);
   const [isLike, setIsLike] = useState(false);
-  const test = () => {
-    let a = post_like.findIndex((p) => p === userInfo?.data.user_id);
-    return a === -1 ? setIsLike(false) : setIsLike(true);
-  };
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     test();
-  //   }
-  // }, [isLike]);
-  // console.log(userInfo?.data.user_id, ":", post_like, ":", isLike);
+  useEffect(() => {
+    if (user !== undefined) {
+      if (post_like.includes(user)) {
+        setIsLike(true);
+      }
+    }
+  }, [user]);
   const likeToggle = () => {
     if (isLike) {
       delLike(
         {},
         {
           onSuccess: () => {
+            console.log("싫어");
             setIsLike(false);
           },
+          onSettled: () => queryClient.invalidateQueries("getPosts"),
         }
       );
     } else {
@@ -37,20 +39,17 @@ const Like = (props) => {
         {},
         {
           onSuccess: () => {
-            alert("좋아요");
+            console.log("좋아");
             setIsLike(true);
           },
+          onSettled: () => queryClient.invalidateQueries("getPosts"),
         }
       );
     }
   };
   return (
     <div onClick={likeToggle} className="w-1/4 flex items-center space-x-2">
-      <Checkbox
-        {...label}
-        icon={<FavoriteBorder color="error" />}
-        checkedIcon={<Favorite color="error" />}
-      />
+      <Favorite color={`${isLike ? "error" : ""}`} />
     </div>
   );
 };

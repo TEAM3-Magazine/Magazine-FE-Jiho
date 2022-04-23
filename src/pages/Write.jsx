@@ -1,5 +1,11 @@
+import WriteForm from "../components/WriteForm";
+
 const Write = () => {
-  return <div>?</div>;
+  return (
+    <div>
+      <WriteForm />
+    </div>
+  );
 };
 
 export default Write;

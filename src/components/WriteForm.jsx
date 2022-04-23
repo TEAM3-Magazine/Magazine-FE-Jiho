@@ -15,11 +15,13 @@ import Alert from "@mui/material/Alert";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../Shared/firebase";
-import { postWrite } from "../api/query";
+import { postUpdate, postWrite } from "../api/query";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../main";
 /* import { postSignup } from "../api/query"; */
 
-const WriteBtn = () => {
+const WriteBtn = (prop) => {
+  const { post_id, number } = prop;
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [imgBase64, setImgBase64] = useState("");
@@ -46,7 +48,6 @@ const WriteBtn = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setAlertOpen(false);
   };
 
@@ -63,8 +64,8 @@ const WriteBtn = () => {
       setImgFile(e.target.files[0]);
     }
   };
-
-  const { mutate, data, isSuccess, isError, error } = postWrite();
+  const { mutate: write, isError } = postWrite();
+  const { mutate: update } = postUpdate(post_id);
   const onSubmit = (data) => {
     let image = fileInput.current.files[0];
     if (!image) {
@@ -78,29 +79,51 @@ const WriteBtn = () => {
           alert("요청 실패");
           return;
         }
-        mutate(
-          {
-            image_url: url,
-            contents: data.contents,
-          },
-          {
-            onSuccess: () => {
-              setOpen(false);
-              setImgBase64("");
-              setValue("contents", "");
-              setAlertOpen(true);
+        if (number === "1") {
+          update(
+            {
+              image_url: url,
+              contents: data.contents,
             },
-          }
-        );
+            {
+              onSuccess: () => {
+                setOpen(false);
+                setImgBase64("");
+                setValue("contents", "");
+                setAlertOpen(true);
+              },
+              onSettled: () => queryClient.invalidateQueries("getPosts"),
+            }
+          );
+        } else {
+          write(
+            {
+              image_url: url,
+              contents: data.contents,
+            },
+            {
+              onSuccess: () => {
+                setOpen(false);
+                setImgBase64("");
+                setValue("contents", "");
+                setAlertOpen(true);
+              },
+              onSettled: () => queryClient.invalidateQueries("getPosts"),
+              onError: () => {
+                console.log("??");
+              },
+            }
+          );
+        }
       });
     });
   };
 
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className={`${post_id ? "" : "fixed"} bottom-4 right-4`}>
       <Fab
         size="medium"
-        color="secondary"
+        color="info"
         aria-label="edit"
         onClick={handleClickOpen}
       >
@@ -140,7 +163,6 @@ const WriteBtn = () => {
               ></img>
             ) : null}
             <TextField
-              autoFocus
               margin="dense"
               id="contents"
               label="내용 작성"
@@ -154,21 +176,47 @@ const WriteBtn = () => {
             <Button onClick={handleClose}>
               <strong>취소</strong>
             </Button>
-            <Button type="submit">
-              <strong>업로드</strong>
-            </Button>
+            {number === "1" ? (
+              <Button type="submit">
+                <strong>수정</strong>
+              </Button>
+            ) : (
+              <Button type="submit">
+                <strong>업로드</strong>
+              </Button>
+            )}
           </DialogActions>
         </form>
       </Dialog>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={2000}
-        onClose={handleAlertClose}
-      >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          게시물 등록 완료!
-        </Alert>
-      </Snackbar>
+      {number === "1" ? (
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={2000}
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="warning"
+            sx={{ width: "100%" }}
+          >
+            게시물 수정 완료!
+          </Alert>
+        </Snackbar>
+      ) : (
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={2000}
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            게시물 등록 완료!
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 };

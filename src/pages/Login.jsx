@@ -11,17 +11,11 @@ const Login = () => {
   const { mutate } = postLogin();
   const navigate = useNavigate();
   const onValid = (data) => {
-    mutate(
-      {
-        user_email: data.email,
-        user_password: data.password,
-      },
-      {
-        onSuccess: () => {
-          navigate("/");
-        },
-      }
-    );
+    mutate({
+      user_email: data.email,
+      user_password: data.password,
+    });
+    navigate("/");
   };
   return (
     <React.Fragment>

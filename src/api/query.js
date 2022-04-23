@@ -18,7 +18,7 @@ export const getPostDetail = (post_id) => {
 /* 유저 정보 가져오기 */
 export const getInfo = () => {
   return useQuery("userInfo", () => {
-    return instance.get("/user/info");
+    return instance.get("/user/userinfo");
   });
 };
 
@@ -28,11 +28,11 @@ export const postLogin = () => {
     try {
       const res = await instance.post(`/user/login`, login);
       let result = res.data;
+      console.log(result);
       alert(result.msg);
       sessionStorage.setItem("token", result.token);
-    } catch {
-      alert("로그인 실패");
-      return;
+    } catch (err) {
+      alert(err.response.data.msg);
     }
   });
 };
@@ -42,11 +42,10 @@ export const postSignup = () => {
   return useMutation(async (signup) => {
     try {
       const res = await instance.post("/user/signup", signup);
-      let result = res.data;
+      console.log(res);
       alert(result.msg);
     } catch (err) {
-      alert("회원가입 실패");
-      return;
+      console.log(err);
     }
   });
 };
@@ -55,11 +54,9 @@ export const postSignup = () => {
 export const postWrite = () => {
   return useMutation(async (post) => {
     try {
-      const res = await instance.post("/api/post", post);
-      let result = res.data;
-      alert(result.msg);
-    } catch (res_1) {
-      alert("작성 오류");
+      await instance.post("/api/post", post);
+    } catch (err) {
+      alert(err.response.data.msg);
     }
   });
 };
@@ -68,12 +65,9 @@ export const postWrite = () => {
 export const postDelete = (post_id) => {
   return useMutation(async (del) => {
     try {
-      const res = await instance.delete(`/api/post/${post_id}`, del);
-      let result = res.data;
-      alert(result.msg);
-    } catch {
-      alert("본인의 포스터만 삭제 가능합니다.");
-      return;
+      await instance.delete(`/api/post/${post_id}`, del);
+    } catch (err) {
+      alert(err.response.data.msg);
     }
   });
 };
@@ -84,7 +78,7 @@ export const postAddLike = (post_id) => {
     try {
       await instance.post(`/api/post/${post_id}/like`, add);
     } catch {
-      // alert("좋아요");
+      alert(err.response.data.msg);
     }
   });
 };
@@ -95,7 +89,7 @@ export const postUndoLike = (post_id) => {
     try {
       await instance.delete(`/api/post/${post_id}/like`, del);
     } catch {
-      alert("취소");
+      alert(err.response.data.msg);
     }
   });
 };
@@ -104,12 +98,10 @@ export const postUndoLike = (post_id) => {
 export const postUpdate = (post_id) => {
   return useMutation(async (update) => {
     try {
-      const res = await instance.put(`/api/post/${post_id}`, update);
-      let result = res.data;
-      alert(result.msg);
-    } catch {
-      alert("본인의 포스터만 삭제 가능합니다.");
-      return;
+      await instance.put(`/api/post/${post_id}`, update);
+    } catch (err) {
+      console.log(err.response);
+      alert(err.response.data.msg);
     }
   });
 };

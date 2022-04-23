@@ -4,9 +4,14 @@ import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
+import Fab from "@mui/material/Fab";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 import { Link } from "react-router-dom";
-import { postDelete, postUpdate } from "../api/query";
+import { postDelete } from "../api/query";
+import WriteBtn from "./WriteForm";
+import { queryClient } from "../main";
 
 const style = {
   position: "absolute",
@@ -29,24 +34,20 @@ const EditToggle = (props) => {
   const handleClose = () => setOpen(false);
   const { mutate } = postDelete(post_id);
   const deletePost = () => {
-    mutate({
-      post_id: post_id,
-    });
+    confirm("삭제하시겠습니까?") === true
+      ? mutate(
+          {
+            post_id: post_id,
+          },
+          {
+            onSettled: () =>
+              queryClient.invalidateQueries(["getPosts", post_id]),
+          }
+        )
+      : false;
   };
-  const { mutate: test } = postUpdate(post_id);
-  const updatePost = () => {
-    test(
-      {
-        contents: "안녕",
-        image_url:
-          "https://firebasestorage.googleapis.com/v0/b/sparta-react-a36d6.appspot.com/o/images%2F%EC%B9%9C%EC%B9%A0%EB%9D%BC.jpg?alt=media&token=2a3d23dd-da66-4b87-bbba-256aad185ada",
-      },
-      {
-        onSuccess: () => {
-          setOpen(false);
-        },
-      }
-    );
+  const modalOpen = () => {
+    setOpen(true);
   };
   return (
     <>
@@ -73,27 +74,30 @@ const EditToggle = (props) => {
             <CloseIcon fontSize="large" style={{ color: "white" }} />
           </div>
           <span className="border-soild border-b-1 cursor-pointer">
-            <Link to="/write">게시물로 이동</Link>
+            <Link to={`post/${post_id}`}>게시물로 이동</Link>
           </span>
 
-          <span className="border-soild border-b-1 cursor-pointer">
-            이미지 링크 복사
-          </span>
-          <span
-            onClick={updatePost}
-            className="border-soild border-b-1 cursor-pointer"
-          >
-            수정
-          </span>
-          <span
-            onClick={deletePost}
-            className="border-soild border-b-1 cursor-pointer"
-          >
-            삭제
-          </span>
-          <span onClick={handleClose} className="cursor-pointer">
-            취소
-          </span>
+          <div className="flex space-x-4 justify-center">
+            <span className="border-soild border-b-1 cursor-pointer">
+              <Fab size="medium" color="inherit" aria-label="add">
+                <ContentCopyIcon />
+              </Fab>
+            </span>
+            <span
+              onClick={modalOpen}
+              className="border-soild border-b-1 cursor-pointer"
+            >
+              <WriteBtn number="1" post_id={post_id} />
+            </span>
+            <span
+              onClick={deletePost}
+              className="border-soild border-b-1 cursor-pointer"
+            >
+              <Fab size="medium" color="error" aria-label="add">
+                <DeleteIcon />
+              </Fab>
+            </span>
+          </div>
         </Box>
       </Modal>
     </>
