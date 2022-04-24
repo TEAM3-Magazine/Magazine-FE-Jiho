@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { instance } from "../services/axios";
 
-/* 메인 페이지 포스트 리스트 */
+/* 메인 페이지 포스트 리스트 30초마다 정보 실시간 업데이트*/
 export const getPosts = () => {
   return useQuery(
     "getPosts",
@@ -36,6 +36,7 @@ export const postLogin = () => {
       let result = res.data;
       alert(result.msg);
       sessionStorage.setItem("token", result.token);
+      window.location.href = "/";
     } catch (err) {
       alert(err.response.data.msg);
       return;

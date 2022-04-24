@@ -1,8 +1,11 @@
 import { lazy } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import TopScroll from "../components/TopScroll";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import TopScroll from "../layout/TopScroll";
 import WriteForm from "../components/WriteForm";
+import { themeState } from "../recoil/atoms";
 
+/* lazy lcp speed */
 const Header = lazy(() => import("./Header"));
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -10,9 +13,16 @@ const Signup = lazy(() => import("../pages/Signup"));
 const PostDetail = lazy(() => import("../pages/PostDetail"));
 
 const Router = () => {
+  const darkMode = useRecoilValue(themeState);
   return (
-    <HashRouter>
-      <nav className="w-full flex flex-col items-center">
+    <BrowserRouter>
+      <nav
+        className={
+          darkMode === "2"
+            ? "w-full flex flex-col items-center"
+            : "dark w-full flex flex-col items-center"
+        }
+      >
         <Header />
         <nav className="w-[550px] absolute top-12">
           <Routes>
@@ -25,7 +35,7 @@ const Router = () => {
         <WriteForm number="2" />
         <TopScroll />
       </nav>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

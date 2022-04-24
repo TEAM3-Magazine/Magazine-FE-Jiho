@@ -3,6 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
+/* 다크 모드 토글 구현 */
 export const getTheme = () => {
   const LIGHT = "1";
   const DARK = "2";
@@ -15,11 +16,7 @@ export const themeState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const getMyInfo = atom({
-  key: "user_info",
-  default: 0,
-});
-
+/* 현재 로그인 유저 세션 저장 */
 export const getSession = atom({
   key: "session",
   default: sessionStorage.getItem("token"),

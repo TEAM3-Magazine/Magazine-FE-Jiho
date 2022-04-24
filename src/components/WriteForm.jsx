@@ -18,7 +18,8 @@ import { storage } from "../Shared/firebase";
 import { postUpdate, postWrite } from "../api/query";
 import { useNavigate } from "react-router-dom";
 import { queryClient } from "../main";
-/* import { postSignup } from "../api/query"; */
+import { useRecoilValue } from "recoil";
+import { getSession } from "../recoil/atoms";
 
 const WriteBtn = (prop) => {
   const { post_id, number } = prop;
@@ -27,11 +28,12 @@ const WriteBtn = (prop) => {
   const [imgBase64, setImgBase64] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const { register, handleSubmit, setValue } = useForm();
-  const session = sessionStorage.getItem("token") ? true : false;
+  const session = useRecoilValue(getSession);
   const navigate = useNavigate();
   const fileInput = useRef();
+  /* 편집 버튼 유저 상태 확인 */
   const handleClickOpen = () => {
-    if (session) {
+    if (session !== null) {
       setOpen(true);
     } else {
       alert("로그인 이후에 가능합니다");
@@ -43,14 +45,13 @@ const WriteBtn = (prop) => {
     setImgBase64("");
     setValue("contents", "");
   };
-
-  const handleAlertClose = (event, reason) => {
+  const handleAlertClose = (_, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setAlertOpen(false);
   };
-
+  /* 파일 파이어베이스 Storage 가공 */
   const onChange = (e) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -64,6 +65,7 @@ const WriteBtn = (prop) => {
       setImgFile(e.target.files[0]);
     }
   };
+  /* 포스터 등록 이미지 필수 등록 */
   const { mutate: write, isError } = postWrite();
   const { mutate: update } = postUpdate(post_id);
   const onSubmit = (data) => {
@@ -118,7 +120,6 @@ const WriteBtn = (prop) => {
       });
     });
   };
-
   return (
     <div className={`${post_id ? "" : "fixed"} bottom-4 right-4`}>
       <Fab
@@ -190,15 +191,7 @@ const WriteBtn = (prop) => {
           open={alertOpen}
           autoHideDuration={2000}
           onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="warning"
-            sx={{ width: "100%" }}
-          >
-            게시물 수정 완료!
-          </Alert>
-        </Snackbar>
+        ></Snackbar>
       ) : (
         <Snackbar
           open={alertOpen}

@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 5px;
   }
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(#e74c3c, #8e44ad);
+    background: ${(props) => props.theme.scrollColor};
     border-radius: 5px;
   }
 }

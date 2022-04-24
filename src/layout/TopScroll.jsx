@@ -2,6 +2,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import Fab from "@mui/material/Fab";
 
 const TopScroll = () => {
+  /* smooth 상태로 최상단으로 scroll이동 */
   const onClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

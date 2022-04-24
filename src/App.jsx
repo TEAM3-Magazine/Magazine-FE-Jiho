@@ -1,16 +1,15 @@
 import Router from "./router/Router";
-import { GlobalStyle } from "./Shared/GlobalStyle";
-import "tailwindcss/tailwind.css";
-import { darkTheme, lightTheme } from "./Shared/Theme";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { darkTheme, lightTheme } from "./styles/Theme";
 import { useRecoilValue } from "recoil";
 import { themeState } from "./recoil/atoms";
 import { ThemeProvider } from "styled-components";
 import { CircularProgress } from "@mui/material";
 import { Suspense } from "react";
+import "tailwindcss/tailwind.css";
 
 function App() {
   const theme = useRecoilValue(themeState);
-
   return (
     <Suspense fallback={<CircularProgress />}>
       <ThemeProvider theme={theme !== "2" ? darkTheme : lightTheme}>

@@ -1,17 +1,25 @@
+import Checkbox from "@mui/material/Checkbox";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+
 import React, { useEffect, useState } from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { getInfo, postAddLike, postUndoLike } from "../api/query";
 import { queryClient } from "../main";
 import { useNavigate } from "react-router-dom";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Like = (props) => {
   const { post_like, post_id } = props;
   const { mutate: addLike } = postAddLike(post_id);
   const { mutate: delLike } = postUndoLike(post_id);
   const { data } = getInfo();
-  let user = data?.data.user_id;
   const [isLike, setIsLike] = useState(false);
   const navigate = useNavigate();
+  /* user 정보를 확인해 좋아요 누른 상태 저장 */
+  let user = data?.data.user_id;
   useEffect(() => {
     if (user !== undefined) {
       if (post_like.includes(user)) {
@@ -19,6 +27,7 @@ const Like = (props) => {
       }
     }
   }, [user]);
+  /* 좋아요 등록, 취소 비로그인 상태는 좋아요 클릭 금지 */
   const likeToggle = () => {
     if (data !== undefined) {
       if (isLike) {
@@ -48,10 +57,20 @@ const Like = (props) => {
     }
   };
   return (
-    <div onClick={likeToggle} className="w-1/4 flex items-center space-x-2 ">
-      <FavoriteIcon
-        className="cursor-pointer"
-        color={isLike ? "error" : "disabled"}
+    <div className="w-full flex items-center justify-between">
+      <Checkbox
+        {...label}
+        onClick={likeToggle}
+        icon={<FavoriteBorder color="error" />}
+        checkedIcon={<Favorite color="error" />}
+        checked={isLike}
+        className="hover:scale-110 duration-200"
+      />
+      <Checkbox
+        className="hover:scale-110 duration-200"
+        {...label}
+        icon={<BookmarkBorderIcon />}
+        checkedIcon={<BookmarkIcon />}
       />
     </div>
   );

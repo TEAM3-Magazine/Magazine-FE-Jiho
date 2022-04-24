@@ -1,22 +1,27 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { getInfo, postLogin } from "../api/query";
-import { useNavigate } from "react-router-dom";
+
 import Helmet from "react-helmet";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { postLogin } from "../api/query";
+import { useNavigate } from "react-router-dom";
+import { queryClient } from "../main";
+import { useRecoilValue } from "recoil";
+import { getSession } from "../recoil/atoms";
 
 const Login = () => {
-  const { data } = getInfo();
+  /* 최초 입장시 로그인 상태면 로그인 창 이용 불가 */
+  const user = useRecoilValue(getSession);
   const navigate = useNavigate();
   useEffect(() => {
-    if (data !== undefined) {
-      alert("이미 로그인 상태입니다");
+    if (user !== null) {
+      alert("로그인 상태에서는 로그인이 불가능합니다");
       navigate("/");
     }
   }, []);
-  const { register, handleSubmit } = useForm();
+  /* 로그인 폼 제출 */
+  const { register, handleSubmit, setValue } = useForm();
   const { mutate } = postLogin();
   const onValid = (data) => {
     mutate(
@@ -26,10 +31,11 @@ const Login = () => {
       },
       {
         onSettled: () => {
-          navigate("/");
+          queryClient.invalidateQueries("getPosts");
         },
       }
     );
+    setValue("password", "");
   };
   return (
     <React.Fragment>
@@ -37,17 +43,21 @@ const Login = () => {
         <title>꿱스타그램 | 로그인</title>
         <meta property="og:title" content="🐭 꿱스타그램"></meta>
         <meta property="og:description" content="우리들의 사진 추억" />
-        <meta property="og:image" content="KakaoTalk_20220416_093108493.jpg" />
+        <meta
+          property="og:image"
+          content="https://velog.velcdn.com/images/jiho3894/post/44bba13c-dbe0-4915-8f0a-400f325c5ff0/image.jpg"
+        />
       </Helmet>
       <div className="w-full h-[calc(100vh-3rem)]  flex flex-col items-center justify-center absolute top-0">
         <h1 className="text-xl font-semibold"> 로그인 </h1>
         <form
           onSubmit={handleSubmit(onValid)}
-          className="space-y-4 flex flex-col p-4 border-2 rounded-md bg-white"
+          className="w-full space-y-4 flex flex-col m-8 p-4 border-2 rounded-md bg-white"
         >
           <TextField
             label="email"
             variant="standard"
+            type="email"
             autoFocus
             {...register("email", {
               required: true,

@@ -3,13 +3,21 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { getSession } from "../recoil/atoms";
 
 const ProfileMenu = () => {
   const navigate = useNavigate();
-  // const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const isToken = sessionStorage.getItem("token") ? true : false;
+  /* 최초 랜더링 무조건 false 상태 */
+  React.useEffect(() => {
+    setAnchorEl(false);
+  }, []);
+  /* 로그인 완료시 메뉴 버튼 변경 */
+  const session = useRecoilValue(getSession);
+  /* 메뉴 토글 */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,7 +36,7 @@ const ProfileMenu = () => {
       >
         <AccountCircle />
       </Button>
-      {isToken ? (
+      {session !== null ? (
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}

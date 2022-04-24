@@ -54,6 +54,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 const DarkMode = () => {
   const [theme, setTheme] = useRecoilState(themeState);
+  /* 다크 모드 토글 tailwind Dark class 사용 */
   const clickDark = () => {
     return theme === "2" ? setTheme("1") : setTheme("2");
   };
@@ -67,6 +68,7 @@ const DarkMode = () => {
         />
       }
       label={theme === "2" ? "Dark Mode" : "Light Mode"}
+      className="dark:text-white"
     />
   );
 };
