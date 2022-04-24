@@ -92,7 +92,6 @@ const WriteBtn = (prop) => {
                 setOpen(false);
                 setImgBase64("");
                 setValue("contents", "");
-                setAlertOpen(true);
               },
               onSettled: () => queryClient.invalidateQueries("getPosts"),
             }
