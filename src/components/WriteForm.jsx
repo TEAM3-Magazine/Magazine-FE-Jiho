@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { storage } from "../Shared/firebase";
+import { storage } from "../shared/firebase";
 import { postUpdate, postWrite } from "../api/query";
 import { useNavigate } from "react-router-dom";
 import { queryClient } from "../main";

@@ -7,6 +7,7 @@ import Post from "../layout/Post";
 const Home = () => {
   /* 포스터 등록 정보 */
   const { data: instar } = getPosts();
+  console.log(instar);
   const [counter, setCounter] = useState(10);
   /* 무한 스크롤 throttle로 이동 랜더링 캔슬 */
   const _handleScroll = _.throttle(() => {
