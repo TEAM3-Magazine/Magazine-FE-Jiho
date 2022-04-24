@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { getInfo, postAddLike, postUndoLike } from "../api/query";
 import { queryClient } from "../main";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -52,8 +53,18 @@ const Like = (props) => {
         );
       }
     } else {
-      alert("로그인 이후 이용 가능합니다");
-      navigate("/login");
+      Swal.fire({
+        text: "로그인후 이용 가능합니다 🐭",
+        position: "top",
+        width: "24rem",
+        showCancelButton: true,
+        confirmButtonText: "로그인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
     }
   };
   return (
@@ -69,8 +80,8 @@ const Like = (props) => {
       <Checkbox
         className="hover:scale-110 duration-200"
         {...label}
-        icon={<BookmarkBorderIcon />}
-        checkedIcon={<BookmarkIcon />}
+        icon={<BookmarkBorderIcon color="primary" />}
+        checkedIcon={<BookmarkIcon color="primary" />}
       />
     </div>
   );

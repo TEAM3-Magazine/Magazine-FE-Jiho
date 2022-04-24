@@ -7,7 +7,7 @@ const TopScroll = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className="fixed right-4 bottom-20">
+    <div className="fixed right-6 bottom-24">
       <Fab onClick={onClick} color="warning" size="medium" aria-label="add">
         <ArrowUpwardIcon />
       </Fab>

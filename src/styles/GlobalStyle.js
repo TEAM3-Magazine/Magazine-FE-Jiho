@@ -19,4 +19,10 @@ body {
 details > summary::-webkit-details-marker {
   display: none;
 }
+
+@media (max-width:551px) {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 `;

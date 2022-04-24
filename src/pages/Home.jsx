@@ -7,7 +7,6 @@ import Post from "../layout/Post";
 const Home = () => {
   /* 포스터 등록 정보 */
   const { data: instar } = getPosts();
-  console.log(instar);
   const [counter, setCounter] = useState(10);
   /* 무한 스크롤 throttle로 이동 랜더링 캔슬 */
   const _handleScroll = _.throttle(() => {
@@ -29,12 +28,6 @@ const Home = () => {
     <React.Fragment>
       <Helmet>
         <title>꿱스타그램</title>
-        <meta property="og:title" content="🐭 꿱스타그램"></meta>
-        <meta property="og:description" content="우리들의 사진 추억" />
-        <meta
-          property="og:image"
-          content="https://velog.velcdn.com/images/jiho3894/post/44bba13c-dbe0-4915-8f0a-400f325c5ff0/image.jpg"
-        />
       </Helmet>
       <div className="w-full h-screen flex justify-center">
         <div>

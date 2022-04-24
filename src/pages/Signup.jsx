@@ -21,9 +21,14 @@ const Signup = () => {
     }
   }, []);
   /* 회원가입 폼 제출 */
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { mutate } = postSignup();
   const onValid = (data) => {
+    console.log(errors);
     mutate(
       {
         user_email: data.email,
@@ -42,15 +47,9 @@ const Signup = () => {
     <React.Fragment>
       <Helmet>
         <title>꿱스타그램 | 회원가입</title>
-        <meta property="og:title" content="🐭 꿱스타그램"></meta>
-        <meta property="og:description" content="우리들의 사진 추억" />
-        <meta
-          property="og:image"
-          content="https://velog.velcdn.com/images/jiho3894/post/44bba13c-dbe0-4915-8f0a-400f325c5ff0/image.jpg"
-        />
       </Helmet>
       <div className="w-full h-[calc(100vh-3rem)]  flex flex-col items-center justify-center absolute top-0">
-        <h1 className="text-xl font-semibold"> 회원가입 </h1>
+        <h1 className="text-xl font-semibold dark:text-white"> 회원가입 </h1>
         <form
           onSubmit={handleSubmit(onValid)}
           className="w-full space-y-4 flex flex-col m-8 p-4 border-2 rounded-md bg-white"

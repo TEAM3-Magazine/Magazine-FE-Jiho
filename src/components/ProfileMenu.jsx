@@ -45,7 +45,6 @@ const ProfileMenu = () => {
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
-          sx={{ mt: "-10px", ml: "-40px" }}
         >
           <MenuItem
             onClick={() => {
@@ -78,7 +77,6 @@ const ProfileMenu = () => {
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
-          sx={{ mt: "-10px", ml: "-40px" }}
         >
           <MenuItem
             onClick={() => {

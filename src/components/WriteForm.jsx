@@ -12,7 +12,7 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../shared/firebase";
 import { postUpdate, postWrite } from "../api/query";
@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { queryClient } from "../main";
 import { useRecoilValue } from "recoil";
 import { getSession } from "../recoil/atoms";
+import Swal from "sweetalert2";
 
 const WriteBtn = (prop) => {
   const { post_id, number } = prop;
@@ -36,8 +37,19 @@ const WriteBtn = (prop) => {
     if (session !== null) {
       setOpen(true);
     } else {
-      alert("로그인 이후에 가능합니다");
-      navigate("/login");
+      Swal.fire({
+        title: "유저 정보가 없습니다",
+        text: "로그인후 이용 가능합니다 🐭",
+        position: "top",
+        width: "24rem",
+        showCancelButton: true,
+        confirmButtonText: "로그인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
     }
   };
   const handleClose = () => {
@@ -71,7 +83,14 @@ const WriteBtn = (prop) => {
   const onSubmit = (data) => {
     let image = fileInput.current.files[0];
     if (!image) {
-      alert("이미지를 넣어주세요");
+      setOpen(false);
+      Swal.fire({
+        text: "이미지를 넣어주세요 😢",
+        position: "top",
+        width: "24rem",
+      }).then(() => {
+        setOpen(true);
+      });
       return;
     }
     const _upload = storage.ref(`images/${image.name}`).put(image);
@@ -89,6 +108,7 @@ const WriteBtn = (prop) => {
             },
             {
               onSuccess: () => {
+                /* 모달 open false 구상 props 전달 */
                 setOpen(false);
                 setImgBase64("");
                 setValue("contents", "");
@@ -120,7 +140,7 @@ const WriteBtn = (prop) => {
     });
   };
   return (
-    <div className={`${post_id ? "" : "fixed"} bottom-4 right-4`}>
+    <div className={`${post_id ? "" : "fixed"} right-6 bottom-8`}>
       <Fab
         size="medium"
         color="info"
@@ -135,7 +155,7 @@ const WriteBtn = (prop) => {
         </DialogTitle>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent className="w-[520px] h-[520px] flex flex-col justify-center items-center">
+          <DialogContent className="sm:w-full sm:h-full w-[520px] h-[520px] flex flex-col justify-center items-center">
             {imgBase64 === "" ? (
               <DialogContentText>사진을 등록해주세요</DialogContentText>
             ) : null}
@@ -185,16 +205,10 @@ const WriteBtn = (prop) => {
           </DialogActions>
         </form>
       </Dialog>
-      {number === "1" ? (
+      {number === "1" ? null : (
         <Snackbar
           open={alertOpen}
-          autoHideDuration={2000}
-          onClose={handleAlertClose}
-        ></Snackbar>
-      ) : (
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={2000}
+          autoHideDuration={3000}
           onClose={handleAlertClose}
         >
           <Alert

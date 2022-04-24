@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "react-query";
+import Swal from "sweetalert2";
 import { instance } from "../services/axios";
 
 /* 메인 페이지 포스트 리스트 30초마다 정보 실시간 업데이트*/
@@ -34,9 +35,15 @@ export const postLogin = () => {
     try {
       const res = await instance.post(`/user/login`, login);
       let result = res.data;
-      alert(result.msg);
       sessionStorage.setItem("token", result.token);
-      window.location.href = "/";
+      Swal.fire({
+        icon: "success",
+        title: "로그인 성공",
+        text: "즐겁게 이용해주세요 😊",
+        width: "24rem",
+      }).then(() => {
+        window.location.href = "/";
+      });
     } catch (err) {
       alert(err.response.data.msg);
       return;
@@ -48,12 +55,20 @@ export const postLogin = () => {
 export const postSignup = () => {
   return useMutation(async (signup) => {
     try {
-      const res = await instance.post("/user/signup", signup);
-      let result = res.data;
-      alert(result.msg);
-      window.location.href = "/";
+      await instance.post("/user/signup", signup);
+      Swal.fire({
+        icon: "success",
+        title: "회원가입 성공",
+        width: "24rem",
+      }).then(() => {
+        window.location.href = "/";
+      });
     } catch (err) {
-      alert(err.response.data.msg);
+      Swal.fire({
+        text: `${err.response.data.msg}`,
+        position: "top",
+        width: "24rem",
+      });
     }
   });
 };
@@ -74,6 +89,21 @@ export const postDelete = (post_id) => {
   return useMutation(async (del) => {
     try {
       await instance.delete(`/api/post/${post_id}`, del);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "error",
+        title: "포스터가 삭제 되었습니다!",
+      });
     } catch (err) {
       alert(err.response.data.msg);
     }
@@ -107,6 +137,21 @@ export const postUpdate = (post_id) => {
   return useMutation(async (update) => {
     try {
       await instance.put(`/api/post/${post_id}`, update);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "info",
+        title: "포스터가 수정 되었습니다!",
+      });
     } catch (err) {
       alert(err.response.data.msg);
     }

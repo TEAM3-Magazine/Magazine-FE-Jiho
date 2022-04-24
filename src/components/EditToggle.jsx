@@ -14,6 +14,7 @@ import { queryClient } from "../main";
 import WriteBtn from "./WriteForm";
 import { useRecoilValue } from "recoil";
 import { getSession } from "../recoil/atoms";
+import Swal from "sweetalert2";
 
 const style = {
   position: "absolute",
@@ -59,8 +60,18 @@ const EditToggle = (props) => {
     if (session) {
       setOpen(true);
     } else {
-      alert("로그인 이후에 가능합니다");
-      navigate("/login");
+      Swal.fire({
+        text: "로그인 후 이용할 수 있습니다 🐭",
+        position: "top",
+        width: "24rem",
+        showCancelButton: true,
+        confirmButtonText: "로그인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
     }
   };
   /* 이미지 복사 */
@@ -69,7 +80,22 @@ const EditToggle = (props) => {
     const el = textInput.current;
     el.select();
     document.execCommand("copy");
-    alert("이미지 URL 복사 완료");
+    setOpen(false);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "이미지 URL이 복사되었습니다!",
+    });
   };
   /* 해당 포스터 삭제 useMutation */
   const { mutate } = postDelete(post_id);
