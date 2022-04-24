@@ -66,7 +66,6 @@ const EditToggle = (props) => {
       {
         onSettled: () => {
           queryClient.invalidateQueries("getPosts");
-          setAlertOpen(true);
         },
       }
     );
@@ -141,7 +140,7 @@ const EditToggle = (props) => {
           />
         </Box>
       </Modal>
-      <Snackbar
+      {/* <Snackbar
         open={alertOpen}
         autoHideDuration={2000}
         onClose={handleAlertClose}
@@ -149,7 +148,7 @@ const EditToggle = (props) => {
         <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
           게시물 수정 완료!
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </>
   );
 };

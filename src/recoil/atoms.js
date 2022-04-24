@@ -1,6 +1,5 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-// import { getInfo } from "../api/query";
 
 const { persistAtom } = recoilPersist();
 

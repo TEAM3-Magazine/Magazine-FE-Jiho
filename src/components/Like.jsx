@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { getInfo, postAddLike, postUndoLike } from "../api/query";
 import { queryClient } from "../main";
+import { useNavigate } from "react-router-dom";
 
 const Like = (props) => {
   const { post_like, post_id } = props;
@@ -9,8 +10,8 @@ const Like = (props) => {
   const { mutate: delLike } = postUndoLike(post_id);
   const { data } = getInfo();
   let user = data?.data.user_id;
-  // console.log(post_like, post_id);
   const [isLike, setIsLike] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     if (user !== undefined) {
       if (post_like.includes(user)) {
@@ -19,28 +20,31 @@ const Like = (props) => {
     }
   }, [user]);
   const likeToggle = () => {
-    if (isLike) {
-      delLike(
-        {},
-        {
-          onSuccess: () => {
-            console.log("싫어");
-            setIsLike(false);
-          },
-          onSettled: () => queryClient.invalidateQueries("getPosts"),
-        }
-      );
+    if (data !== undefined) {
+      if (isLike) {
+        delLike(
+          {},
+          {
+            onSuccess: () => {
+              setIsLike(false);
+            },
+            onSettled: () => queryClient.invalidateQueries("getPosts"),
+          }
+        );
+      } else {
+        addLike(
+          {},
+          {
+            onSuccess: () => {
+              setIsLike(true);
+            },
+            onSettled: () => queryClient.invalidateQueries("getPosts"),
+          }
+        );
+      }
     } else {
-      addLike(
-        {},
-        {
-          onSuccess: () => {
-            console.log("좋아");
-            setIsLike(true);
-          },
-          onSettled: () => queryClient.invalidateQueries("getPosts"),
-        }
-      );
+      alert("로그인 이후 이용 가능합니다");
+      navigate("/login");
     }
   };
   return (

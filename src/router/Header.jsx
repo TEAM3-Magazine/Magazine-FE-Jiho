@@ -9,7 +9,7 @@ const Header = () => {
       <div className=" re w-[550px] pl-2 h-12 bg-white/80 flex justify-between items-center rounded-md">
         <div className="">
           <Link to="/">
-            <span className="font-mono font-semibold">🐭꿱스타그램</span>
+            <span className="font-mono font-semibold">꿱스타그램</span>
           </Link>
         </div>
         <div>

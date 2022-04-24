@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
+import Helmet from "react-helmet";
 import { getPosts } from "../api/query";
 import Post from "../components/Post";
 
@@ -23,6 +24,12 @@ const Home = () => {
   }, [handleScroll]);
   return (
     <React.Fragment>
+      <Helmet>
+        <title>꿱스타그램</title>
+        <meta property="og:title" content="🐭 꿱스타그램"></meta>
+        <meta property="og:description" content="우리들의 사진 추억" />
+        <meta property="og:image" content="KakaoTalk_20220416_093108493.jpg" />
+      </Helmet>
       <div className="w-full h-screen flex justify-center">
         <div>
           {instar?.data?.slice(0, counter).map((data) => {

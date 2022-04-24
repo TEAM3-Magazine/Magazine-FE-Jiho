@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { postSignup } from "../api/query";
+import { getInfo, postSignup } from "../api/query";
 import { useNavigate } from "react-router-dom";
+import Helmet from "react-helmet";
 
 const Signup = () => {
+  const { data } = getInfo();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (data !== undefined) {
+      alert("로그인 상태에서는 회원가입이 불가능합니다");
+      navigate("/");
+    }
+  }, []);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const { mutate } = postSignup();
-  const navigate = useNavigate();
   const onValid = (data) => {
     mutate({
       user_email: data.email,
@@ -25,6 +33,12 @@ const Signup = () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>꿱스타그램 | 회원가입</title>
+        <meta property="og:title" content="🐭 꿱스타그램"></meta>
+        <meta property="og:description" content="우리들의 사진 추억" />
+        <meta property="og:image" content="KakaoTalk_20220416_093108493.jpg" />
+      </Helmet>
       <div className="w-full h-[calc(100vh-3rem)]  flex flex-col items-center justify-center absolute top-0">
         <h1 className="text-xl font-semibold"> 회원가입 </h1>
         <form
@@ -63,7 +77,6 @@ const Signup = () => {
             })}
           />
           <TextField
-            id="standard-password-input"
             label="Password"
             type="password"
             variant="standard"
@@ -77,7 +90,6 @@ const Signup = () => {
             })}
           />
           <TextField
-            id="standard-password-input"
             label="Try Password"
             type="password"
             variant="standard"

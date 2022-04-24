@@ -1,4 +1,5 @@
 import React from "react";
+import Helmet from "react-helmet";
 import { useLocation } from "react-router-dom";
 import { getPostDetail } from "../api/query";
 
@@ -8,6 +9,12 @@ const PostDetail = () => {
   const detail = data?.data;
   return (
     <React.Fragment>
+      <Helmet>
+        <title>꿱스타그램 | {`${detail?.post_id}`}</title>
+        <meta property="og:title" content="🐭 꿱스타그램"></meta>
+        <meta property="og:description" content="우리들의 사진 추억" />
+        <meta property="og:image" content="KakaoTalk_20220416_093108493.jpg" />
+      </Helmet>
       <div className="w-[550px] bg-white overflow-hidden my-2 rounded-lg flex flex-col justify-center items-center shadow-xl">
         <header className="w-full h-12 px-3 flex justify-between items-center">
           <div className="w-12"></div>

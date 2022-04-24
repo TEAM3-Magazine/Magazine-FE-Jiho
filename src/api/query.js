@@ -38,6 +38,7 @@ export const postLogin = () => {
       sessionStorage.setItem("token", result.token);
     } catch (err) {
       alert(err.response.data.msg);
+      return;
     }
   });
 };
@@ -51,7 +52,7 @@ export const postSignup = () => {
       alert(result.msg);
       window.location.href = "/";
     } catch (err) {
-      console.log(err);
+      alert(err.response.data.msg);
     }
   });
 };

@@ -2,13 +2,12 @@ import { lazy } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import TopScroll from "../components/TopScroll";
 import WriteForm from "../components/WriteForm";
-import Header from "./Header";
 
+const Header = lazy(() => import("./Header"));
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
 const Signup = lazy(() => import("../pages/Signup"));
 const PostDetail = lazy(() => import("../pages/PostDetail"));
-const Write = lazy(() => import("../pages/Write"));
 
 const Router = () => {
   return (
@@ -21,7 +20,6 @@ const Router = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/post/:id" element={<PostDetail />} />
-            <Route path="write" element={<Write />} />
           </Routes>
         </nav>
         <WriteForm number="2" />
