@@ -170,14 +170,25 @@ const WriteBtn = (prop) => {
   };
   return (
     <React.Fragment>
-      <Fab
-        size="small"
-        color="info"
-        aria-label="edit"
-        onClick={handleClickOpen}
-      >
-        <EditIcon fontSize="medium" />
-      </Fab>
+      {number === "1" ? (
+        <Fab
+          size="medium"
+          color="info"
+          aria-label="edit"
+          onClick={handleClickOpen}
+        >
+          <EditIcon fontSize="medium" />
+        </Fab>
+      ) : (
+        <Fab
+          size="small"
+          color="info"
+          aria-label="edit"
+          onClick={handleClickOpen}
+        >
+          <EditIcon fontSize="medium" />
+        </Fab>
+      )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
           {number === "1" ? "수정하기" : "새 게시물 만들기"}
