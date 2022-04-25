@@ -22,7 +22,7 @@ const Post = (props) => {
   // };
   return (
     <React.Fragment>
-      <div className="dark:bg-[#111111] sm:w-[100%] w-[550px] bg-white  my-4 rounded-lg flex flex-col justify-center items-center shadow-xl">
+      <div className="dark:bg-[#111111] sm:w-[100%] w-[550px] sm:min-w-[280px] bg-white  my-4 rounded-lg flex flex-col justify-center items-center shadow-xl">
         <header className="w-full h-12 px-3 flex justify-between items-center">
           <div className="dark:text-white w-12 font-semibold">{user_name}</div>
           <EditToggle
