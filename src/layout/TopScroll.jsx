@@ -1,5 +1,6 @@
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import Fab from "@mui/material/Fab";
+import React from "react";
 
 const TopScroll = () => {
   /* smooth 상태로 최상단으로 scroll이동 */
@@ -7,11 +8,11 @@ const TopScroll = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className="fixed right-6 bottom-24">
-      <Fab onClick={onClick} color="warning" size="medium" aria-label="add">
+    <React.Fragment>
+      <Fab onClick={onClick} color="warning" size="small" aria-label="add">
         <ArrowUpwardIcon />
       </Fab>
-    </div>
+    </React.Fragment>
   );
 };
 

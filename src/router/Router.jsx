@@ -1,10 +1,7 @@
 import { lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import TopScroll from "../layout/TopScroll";
-import WriteForm from "../components/WriteForm";
 import { themeState } from "../recoil/atoms";
-import MyProfile from "../layout/MyProfile";
 
 /* lazy lcp speed */
 const Header = lazy(() => import("./Header"));
@@ -12,6 +9,7 @@ const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
 const Signup = lazy(() => import("../pages/Signup"));
 const Profile = lazy(() => import("../pages/Profile"));
+const Footer = lazy(() => import("./Footer"));
 
 const Router = () => {
   const darkMode = useRecoilValue(themeState);
@@ -33,9 +31,7 @@ const Router = () => {
             <Route path="/profile/:id" element={<Profile />} />
           </Routes>
         </nav>
-        <MyProfile />
-        <TopScroll />
-        <WriteForm number="2" />
+        <Footer />
       </nav>
     </BrowserRouter>
   );

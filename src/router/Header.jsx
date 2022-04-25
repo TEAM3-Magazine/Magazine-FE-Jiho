@@ -5,7 +5,7 @@ import LoginToggle from "../components/LoginToggle";
 
 const Header = () => {
   return (
-    <div className=" w-full flex justify-center fixed z-50 shadow-lg">
+    <div className="w-full flex justify-center fixed z-50 shadow-lg">
       <div className="dark:bg-[#333333]/80 w-[550px] pl-2 h-12 bg-white/80 flex justify-between items-center">
         <div className="">
           <Link to="/">

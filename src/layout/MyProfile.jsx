@@ -64,15 +64,10 @@ export default function MyProfile() {
     }
   };
   return (
-    <Stack
-      className="fixed right-3 bottom-36 w-14 h-14 cursor-pointer"
-      direction="row"
-      spacing={2}
-      onClick={profile}
-    >
+    <Stack className="cursor-pointer" direction="row" onClick={profile}>
       <StyledBadge
         overlap="circular"
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         variant="dot"
       >
         <Avatar

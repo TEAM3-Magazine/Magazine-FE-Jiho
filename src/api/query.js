@@ -50,7 +50,11 @@ export const postLogin = () => {
         window.location.href = "/";
       });
     } catch (err) {
-      alert(err.response.data.msg);
+      Swal.fire({
+        text: `${err.response.data.msg}`,
+        position: "top",
+        width: "24rem",
+      });
       return;
     }
   });
@@ -83,6 +87,7 @@ export const postWrite = () => {
   return useMutation(async (post) => {
     try {
       await instance.post("/api/post", post);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       alert(err.response.data.msg);
     }

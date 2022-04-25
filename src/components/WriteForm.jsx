@@ -1,7 +1,7 @@
+import React from "react";
 import Fab from "@mui/material/Fab";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -169,9 +169,9 @@ const WriteBtn = (prop) => {
     });
   };
   return (
-    <div className={`${post_id ? "" : "fixed"} right-6 bottom-8`}>
+    <React.Fragment>
       <Fab
-        size="medium"
+        size="small"
         color="info"
         aria-label="edit"
         onClick={handleClickOpen}
@@ -261,7 +261,7 @@ const WriteBtn = (prop) => {
           </Alert>
         </Snackbar>
       )}
-    </div>
+    </React.Fragment>
   );
 };
 
