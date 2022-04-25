@@ -34,7 +34,7 @@ export const postLogin = () => {
         toast: true,
         position: "center",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.addEventListener("mouseenter", Swal.stopTimer);

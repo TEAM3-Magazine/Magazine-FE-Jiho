@@ -1,4 +1,5 @@
 import React from "react";
+import Helmet from "react-helmet";
 import { useMatch } from "react-router-dom";
 import { getPosts } from "../api/query";
 import PostDetail from "../layout/PostDetail";
@@ -11,6 +12,9 @@ const Profile = () => {
   const posts = instar?.data.filter((id) => id.user_name === getUser);
   return (
     <React.Fragment>
+      <Helmet>
+        <title>꿱스타그램 | {getUser}</title>
+      </Helmet>
       <header className="flex sm:w-[100%] w-[550px] h-[120px] sm:h-[120px] border-b-2">
         <div className="flex w-full h-[120px] items-center ">
           <div className="w-[150px]  h-full flex items-center">
@@ -18,7 +22,7 @@ const Profile = () => {
           </div>
           <div className="sm:w-[100%] w-[400px] h-full ">
             <section className="bg-white py-2 flex flex-col space-y-2">
-              <div className="text-xl font-semibold">{getUser}</div>
+              <div className="text-xl font-semibold px-2">{getUser}</div>
               <div className="flex justify-between h-full w-full  p-2">
                 <div className="flex flex-col justify-center items-center">
                   <span className="font-light text-gray-400 text-xs">
