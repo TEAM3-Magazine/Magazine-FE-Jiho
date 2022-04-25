@@ -1,11 +1,9 @@
 import React from "react";
-import { Link, useMatch } from "react-router-dom";
 import EditToggle from "../components/EditToggle";
 import Like from "./Like";
 import Time from "./Time";
 
 const Post = (props) => {
-  const match = useMatch("/");
   const { contents, image_url, user_name, post_id, post_like, created_at } =
     props;
   // 더블 터치 좋아요
@@ -31,6 +29,7 @@ const Post = (props) => {
             user_name={user_name}
             post_id={post_id}
             image_url={image_url}
+            contents={contents}
           />
         </header>
         <div className="w-full h-[400px] flex justify-center items-center overflow-hidden">
@@ -49,16 +48,7 @@ const Post = (props) => {
           </section>
           <section className="dark:text-white w-full text-sm px-3 py-2">
             <span>{contents}</span>
-            <div> 더보기 ...</div>
-            <div className="dark:text-white mt-3">{`#졸귀 #${user_name}`}</div>
-            <div className="dark:text-gray-400 font-light text-gray-600">
-              <Link
-                to={match ? `post/${post_id}` : "#"}
-                state={{ contents, image_url, user_name, post_id }}
-              >
-                댓글 3개 모두 보기
-              </Link>
-            </div>
+            <div className="dark:text-white mt-3">{`#인생샷 #${user_name}`}</div>
             {/* <div> 와 진짜 귀엽네 ??</div> */}
           </section>
         </div>

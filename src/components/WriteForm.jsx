@@ -11,8 +11,10 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { CircularProgress } from "@mui/material";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { storage } from "../shared/firebase";
 import { postUpdate, postWrite } from "../api/query";
@@ -23,7 +25,7 @@ import { getSession } from "../recoil/atoms";
 import Swal from "sweetalert2";
 
 const WriteBtn = (prop) => {
-  const { post_id, number } = prop;
+  const { post_id, number, image_url, contents } = prop;
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [imgBase64, setImgBase64] = useState("");
@@ -78,22 +80,28 @@ const WriteBtn = (prop) => {
     }
   };
   /* 포스터 등록 이미지 필수 등록 */
-  const { mutate: write, isError } = postWrite();
-  const { mutate: update } = postUpdate(post_id);
+  const { mutateAsync: write, isError } = postWrite();
+  const { mutateAsync: update } = postUpdate(post_id);
+  const [loading, setLoading] = useState(false);
   const onSubmit = (data) => {
     let image = fileInput.current.files[0];
     if (!image) {
-      setOpen(false);
-      Swal.fire({
-        text: "이미지를 넣어주세요 😢",
-        position: "top",
-        width: "24rem",
-      }).then(() => {
-        setOpen(true);
-      });
-      return;
+      if (image_url === undefined) {
+        setOpen(false);
+        Swal.fire({
+          text: "이미지를 넣어주세요 😢",
+          position: "top",
+          width: "24rem",
+        }).then(() => {
+          setOpen(true);
+        });
+        return;
+      }
     }
-    const _upload = storage.ref(`images/${image.name}`).put(image);
+    /* 업로드 중 로딩 창 */
+    setLoading(true);
+    /* 수정 창 업로드 창 이미지 값 다르게 표현 */
+    const _upload = storage.ref(`images/${image?.name}`).put(image);
     _upload.then((snapshot) => {
       snapshot.ref.getDownloadURL().then((url) => {
         if (isError) {
@@ -101,21 +109,43 @@ const WriteBtn = (prop) => {
           return;
         }
         if (number === "1") {
-          update(
-            {
-              image_url: url,
-              contents: data.contents,
-            },
-            {
-              onSuccess: () => {
-                /* 모달 open false 구상 props 전달 */
-                setOpen(false);
-                setImgBase64("");
-                setValue("contents", "");
+          if (image?.name !== undefined) {
+            update(
+              {
+                image_url: url,
+                contents: data.contents,
               },
-              onSettled: () => queryClient.invalidateQueries("getPosts"),
-            }
-          );
+              {
+                onSuccess: () => {
+                  /* 모달 open false 구상 props 전달 */
+                  setOpen(false);
+                  setImgBase64("");
+                  setValue("contents", "");
+                },
+                onSettled: () => queryClient.invalidateQueries("getPosts"),
+              }
+            ).then(() => {
+              setLoading(false);
+            });
+          } else {
+            update(
+              {
+                image_url: image_url,
+                contents: data.contents,
+              },
+              {
+                onSuccess: () => {
+                  /* 모달 open false 구상 props 전달 */
+                  setOpen(false);
+                  setImgBase64("");
+                  setValue("contents", "");
+                },
+                onSettled: () => queryClient.invalidateQueries("getPosts"),
+              }
+            ).then(() => {
+              setLoading(false);
+            });
+          }
         } else {
           write(
             {
@@ -130,11 +160,10 @@ const WriteBtn = (prop) => {
                 setAlertOpen(true);
               },
               onSettled: () => queryClient.invalidateQueries("getPosts"),
-              onError: () => {
-                console.log("??");
-              },
             }
-          );
+          ).then(() => {
+            setLoading(false);
+          });
         }
       });
     });
@@ -178,30 +207,42 @@ const WriteBtn = (prop) => {
             </label>
             {imgBase64 ? (
               <img width="250px" height="250px" src={imgBase64}></img>
+            ) : image_url !== undefined ? (
+              <img width="250px" height="250px" src={image_url}></img>
             ) : null}
-            <TextField
-              margin="dense"
-              id="contents"
-              label="내용 작성"
-              type="text"
+            <TextareaAutosize
+              aria-label="minimum height"
+              minRows={3}
+              placeholder="내용 작성"
               fullWidth
+              autoFocus
+              defaultValue={contents}
               variant="standard"
-              {...register("contents")}
+              maxLength={255}
+              style={{ width: 400, border: "2px solid" }}
+              {...register("contents", {
+                maxLength: 255,
+              })}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>
+            <Button onClick={handleClose} disabled={loading}>
               <strong>취소</strong>
             </Button>
             {number === "1" ? (
-              <Button type="submit">
+              <Button type="submit" disabled={loading}>
                 <strong>수정</strong>
               </Button>
             ) : (
-              <Button type="submit">
+              <Button type="submit" disabled={loading}>
                 <strong>업로드</strong>
               </Button>
             )}
+            {loading ? (
+              <div>
+                <CircularProgress />
+              </div>
+            ) : null}
           </DialogActions>
         </form>
       </Dialog>

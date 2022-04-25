@@ -5,7 +5,7 @@ import Helmet from "react-helmet";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { postLogin } from "../api/query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { queryClient } from "../main";
 import { useRecoilValue } from "recoil";
 import { getSession } from "../recoil/atoms";
@@ -77,6 +77,13 @@ const Login = () => {
           <Button type="submit" variant="contained">
             로그인
           </Button>
+          <footer className="w-full text-center">
+            <Link to="/signup">
+              <span className="text-sm text-gray-500">
+                <u>아직 회원이 아니신가요?</u>
+              </span>
+            </Link>
+          </footer>
         </form>
       </div>
     </React.Fragment>

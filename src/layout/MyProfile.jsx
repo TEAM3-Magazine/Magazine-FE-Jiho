@@ -3,6 +3,11 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { useRecoilValue } from "recoil";
+import { getSession } from "../recoil/atoms";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { getInfo } from "../api/query";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -36,24 +41,45 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function MyProfile() {
+  const session = useRecoilValue(getSession);
+  const navigate = useNavigate();
+  const { data } = getInfo();
+  const user = data?.data?.user_name;
+  const profile = () => {
+    if (session === null) {
+      Swal.fire({
+        text: "로그인 후 이용할 수 있습니다 🐭",
+        position: "top",
+        width: "24rem",
+        showCancelButton: true,
+        confirmButtonText: "로그인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate(`profile/${user}`);
+    }
+  };
   return (
     <Stack
       className="fixed right-3 bottom-36 w-14 h-14 cursor-pointer"
       direction="row"
       spacing={2}
+      onClick={profile}
     >
-      <a href="https://github.com/jiho3894" target="_blank">
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          variant="dot"
-        >
-          <Avatar
-            alt="Remy Sharp"
-            src="https://velog.velcdn.com/images/jiho3894/post/44bba13c-dbe0-4915-8f0a-400f325c5ff0/image.jpg"
-          />
-        </StyledBadge>
-      </a>
+      <StyledBadge
+        overlap="circular"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        variant="dot"
+      >
+        <Avatar
+          alt="Remy Sharp"
+          src="https://avatars.githubusercontent.com/u/79081800?v=4"
+        />
+      </StyledBadge>
     </Stack>
   );
 }

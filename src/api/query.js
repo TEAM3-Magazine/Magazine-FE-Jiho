@@ -4,15 +4,9 @@ import { instance } from "../services/axios";
 
 /* 메인 페이지 포스트 리스트 30초마다 정보 실시간 업데이트*/
 export const getPosts = () => {
-  return useQuery(
-    "getPosts",
-    () => {
-      return instance.get("/api/post");
-    },
-    {
-      refetchInterval: 30000,
-    }
-  );
+  return useQuery("getPosts", () => {
+    return instance.get("/api/post");
+  });
 };
 
 /* 포스터 상세 페이지 */
@@ -36,7 +30,18 @@ export const postLogin = () => {
       const res = await instance.post(`/user/login`, login);
       let result = res.data;
       sessionStorage.setItem("token", result.token);
-      Swal.fire({
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "center",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
         icon: "success",
         title: "로그인 성공",
         text: "즐겁게 이용해주세요 😊",

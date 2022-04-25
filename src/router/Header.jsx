@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import DarkMode from "../layout/DarkMode";
-import ProfileMenu from "../components/ProfileMenu";
+import LoginToggle from "../components/LoginToggle";
 
 const Header = () => {
   return (
@@ -9,16 +9,14 @@ const Header = () => {
       <div className="dark:bg-[#333333]/80 w-[550px] pl-2 h-12 bg-white/80 flex justify-between items-center">
         <div className="">
           <Link to="/">
-            <span className="dark:text-white font-mono font-semibold">
-              꿱스타그램
-            </span>
+            <span className="dark:text-white font-semibold">꿱스타그램</span>
           </Link>
         </div>
         <div>
           <DarkMode />
         </div>
         <div>
-          <ProfileMenu />
+          <LoginToggle />
         </div>
       </div>
     </div>

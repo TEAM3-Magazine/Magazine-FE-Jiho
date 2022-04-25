@@ -11,7 +11,7 @@ const Header = lazy(() => import("./Header"));
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
 const Signup = lazy(() => import("../pages/Signup"));
-const PostDetail = lazy(() => import("../pages/PostDetail"));
+const Profile = lazy(() => import("../pages/Profile"));
 
 const Router = () => {
   const darkMode = useRecoilValue(themeState);
@@ -30,10 +30,10 @@ const Router = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/profile/:id" element={<Profile />} />
           </Routes>
         </nav>
-        <MyProfile/>
+        <MyProfile />
         <TopScroll />
         <WriteForm number="2" />
       </nav>

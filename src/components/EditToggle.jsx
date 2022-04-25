@@ -7,8 +7,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Fab from "@mui/material/Fab";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import PersonIcon from "@mui/icons-material/Person";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import { getInfo, postDelete } from "../api/query";
 import { queryClient } from "../main";
 import WriteBtn from "./WriteForm";
@@ -31,7 +32,8 @@ const style = {
 };
 
 const EditToggle = (props) => {
-  const { post_id, image_url, user_name } = props;
+  const match = useMatch("/profile/:id");
+  const { post_id, image_url, user_name, contents } = props;
   /* 유저 정보로 편집 정보 확인해서 UI 변경 */
   const { data } = getInfo();
   const user = data?.data.user_name;
@@ -94,7 +96,7 @@ const EditToggle = (props) => {
     });
     Toast.fire({
       icon: "success",
-      title: "이미지 URL이 복사되었습니다!",
+      title: "이미지 URL을 복사되었습니다!",
     });
   };
   /* 해당 포스터 삭제 useMutation */
@@ -107,6 +109,7 @@ const EditToggle = (props) => {
       {
         onSettled: () => {
           queryClient.invalidateQueries("getPosts");
+          setOpen(false);
         },
       }
     );
@@ -136,12 +139,24 @@ const EditToggle = (props) => {
           >
             <CloseIcon fontSize="large" style={{ color: "white" }} />
           </div>
-          <span className="border-soild border-b-1  hover:text-gray-500">
-            <Link to={`post/${post_id}`}>
-              <span className="cursor-pointer">게시물로 이동</span>
-            </Link>
-          </span>
-          <div className="flex space-x-4 justify-center">
+          <div className="flex space-x-7 justify-center">
+            {match === null ? (
+              <span className="relative duration-500 flex flex-col items-center border-soild border-b-1 cursor-pointer">
+                <Link to={`profile/${user_name}`}>
+                  <Fab
+                    size="medium"
+                    color="success"
+                    aria-label="add"
+                    className="cursor-pointer "
+                  >
+                    <PersonIcon />
+                  </Fab>
+                </Link>
+                <div className="absolute top-14  text-[10px] ">
+                  <span className="cursor-pointer">프로필</span>
+                </div>
+              </span>
+            ) : null}
             <span className="relative duration-500 flex flex-col items-center border-soild border-b-1 cursor-pointer">
               <Fab
                 onClick={copy}
@@ -160,7 +175,12 @@ const EditToggle = (props) => {
                   onClick={modalOpen}
                   className="relative flex flex-col items-center border-soild border-b-1 cursor-pointer"
                 >
-                  <WriteBtn number="1" post_id={post_id} />
+                  <WriteBtn
+                    number="1"
+                    post_id={post_id}
+                    contents={contents}
+                    image_url={image_url}
+                  />
                   <span className="absolute top-14 text-[10px]">수정하기</span>
                 </span>
                 <span className="relative flex flex-col items-center border-soild border-b-1 cursor-pointer">

@@ -60,62 +60,30 @@ const Signup = () => {
             type="email"
             autoFocus
             required
-            {...register("email", {
-              pattern: {
-                value: /^[A-Za-z0-9._%+-]/g,
-                message: "이메일에 @는 필수입니다",
-              },
-            })}
+            {...register("email")}
           />
           <TextField
             label="닉네임"
             type="text"
             variant="standard"
-            {...register("name", {
-              required: true,
-              minLength: {
-                value: 3,
-                message: "minLength 3",
-              },
-              pattern: {
-                value: /^[A-Za-z0-9._%+-]/g,
-                message: "pattern error",
-              },
-            })}
+            required
+            {...register("name")}
           />
           <TextField
             label="비밀번호"
             type="password"
             variant="standard"
             autoComplete="off"
-            {...register("password", {
-              required: true,
-              minLength: {
-                value: 6,
-                message: "최소 6자",
-              },
-              pattern: {
-                value: /^[A-Za-z0-9._%+-]/g,
-                message: "not pattern",
-              },
-            })}
+            required
+            {...register("password")}
           />
           <TextField
             label="비밀번호 체크"
             type="password"
             variant="standard"
             autoComplete="off"
-            {...register("passwordCheck", {
-              required: true,
-              minLength: {
-                value: 6,
-                message: "최소 6자",
-              },
-              pattern: {
-                value: /^[A-Za-z0-9._%+-]/g,
-                message: "error",
-              },
-            })}
+            required
+            {...register("passwordCheck")}
           />
           <Button type="submit" variant="contained">
             회원가입
