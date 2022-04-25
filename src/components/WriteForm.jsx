@@ -219,7 +219,7 @@ const WriteBtn = (prop) => {
               defaultValue={contents}
               variant="standard"
               maxLength={255}
-              style={{ width: 400, border: "2px solid" }}
+              style={{ width: 250, border: "2px solid" }}
               {...register("contents", {
                 maxLength: 255,
               })}
