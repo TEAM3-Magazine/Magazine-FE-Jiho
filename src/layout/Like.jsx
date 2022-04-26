@@ -20,7 +20,7 @@ const Like = (props) => {
   const [isLike, setIsLike] = useState(false);
   const navigate = useNavigate();
   /* user 정보를 확인해 좋아요 누른 상태 저장 */
-  let user = data?.data.user_id;
+  let user = data?.user_id;
   useEffect(() => {
     if (user !== undefined) {
       if (post_like.includes(user)) {

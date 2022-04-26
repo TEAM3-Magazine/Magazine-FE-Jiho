@@ -4,9 +4,18 @@ import { instance } from "../services/axios";
 
 /* 메인 페이지 포스트 리스트 30초마다 정보 실시간 업데이트*/
 export const getPosts = () => {
-  return useQuery("getPosts", () => {
-    return instance.get("/api/post");
-  });
+  return useQuery(
+    "getPosts",
+    () => {
+      return instance.get("/api/post");
+    },
+    {
+      select: (data) => {
+        const result = data?.data;
+        return result;
+      },
+    }
+  );
 };
 
 /* 포스터 상세 페이지 */
@@ -20,6 +29,11 @@ export const getPostDetail = (post_id) => {
 export const getInfo = () => {
   return useQuery("userInfo", () => {
     return instance.get("/user/userinfo");
+  }, {
+    select: (data) => {
+      const result = data?.data
+      return result
+    }
   });
 };
 

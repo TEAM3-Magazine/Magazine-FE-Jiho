@@ -44,7 +44,7 @@ export default function MyProfile() {
   const session = useRecoilValue(getSession);
   const navigate = useNavigate();
   const { data } = getInfo();
-  const user = data?.data?.user_name;
+  const user = data?.user_name;
   const profile = () => {
     if (session === null) {
       Swal.fire({

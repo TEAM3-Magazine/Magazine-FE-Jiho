@@ -11,8 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { CircularProgress } from "@mui/material";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { CircularProgress } from "@mui/material";
 
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -225,7 +225,6 @@ const WriteBtn = (prop) => {
               aria-label="minimum height"
               minRows={3}
               placeholder="내용 작성"
-              fullWidth
               autoFocus
               defaultValue={contents}
               variant="standard"

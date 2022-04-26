@@ -36,7 +36,7 @@ const EditToggle = (props) => {
   const { post_id, image_url, user_name, contents } = props;
   /* 유저 정보로 편집 정보 확인해서 UI 변경 */
   const { data } = getInfo();
-  const user = data?.data.user_name;
+  const user = data?.user_name;
   const [edit, setEdit] = React.useState(false);
   React.useEffect(() => {
     if (user !== undefined) {

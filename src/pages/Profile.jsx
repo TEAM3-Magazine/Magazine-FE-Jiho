@@ -9,7 +9,7 @@ const Profile = () => {
   const user = useMatch("/profile/:id");
   const getUser = user?.params?.id;
   const { data: instar } = getPosts();
-  const posts = instar?.data.filter((id) => id.user_name === getUser);
+  const posts = instar?.filter((id) => id.user_name === getUser);
   return (
     <React.Fragment>
       <Helmet>

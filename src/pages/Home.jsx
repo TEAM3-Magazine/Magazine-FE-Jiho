@@ -31,7 +31,7 @@ const Home = () => {
       </Helmet>
       <div className="w-full h-screen flex justify-center">
         <div>
-          {instar?.data?.slice(0, counter).map((data) => {
+          {instar?.slice(0, counter).map((data) => {
             return <Post key={data.post_id} {...data} />;
           })}
         </div>

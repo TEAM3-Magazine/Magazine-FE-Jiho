@@ -3,16 +3,15 @@ import "firebase/auth";
 import "firebase/storage";
 import "firebase/database";
 
-export const apiKey = "AIzaSyAj2SygMOq0aExONbXyRmpP3RTLwSfos3Y";
+export const apiKey = "AIzaSyDIqPxO7CjBIbNeh3qXyf1Dbxjjsgq9FbE";
 
 const firebaseConfig = {
   apiKey: apiKey,
-  authDomain: "sparta-react-a36d6.firebaseapp.com",
-  projectId: "sparta-react-a36d6",
-  storageBucket: "sparta-react-a36d6.appspot.com",
-  messagingSenderId: "579630563820",
-  appId: "1:579630563820:web:a2ccd11f1d34eebde600c9",
-  measurementId: "G-JM0W78N7B5",
+  authDomain: "duckstargram.firebaseapp.com",
+  projectId: "duckstargram",
+  storageBucket: "duckstargram.appspot.com",
+  messagingSenderId: "807587994376",
+  appId: "1:807587994376:web:1bc09ffa1916fbc4c6aabd",
 };
 
 firebase.initializeApp(firebaseConfig);

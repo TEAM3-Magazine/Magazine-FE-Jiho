@@ -28,7 +28,6 @@ const Signup = () => {
   } = useForm();
   const { mutate } = postSignup();
   const onValid = (data) => {
-    console.log(errors);
     mutate(
       {
         user_email: data.email,
